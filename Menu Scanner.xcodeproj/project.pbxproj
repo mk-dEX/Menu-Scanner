@@ -42,7 +42,6 @@
 		49A264BA16E79321004943C8 /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 49A264B516E79320004943C8 /* zbar-help.html */; };
 		49A264BB16E79321004943C8 /* zbar-helpicons.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A264B616E79320004943C8 /* zbar-helpicons.png */; };
 		49A264BC16E79321004943C8 /* zbar-samples.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A264B716E79320004943C8 /* zbar-samples.png */; };
-		49A264BE16E79893004943C8 /* icon_iPad_Retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A264BD16E79893004943C8 /* icon_iPad_Retina.png */; };
 		49A264C116E7B13D004943C8 /* separator.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A264BF16E7B13D004943C8 /* separator.png */; };
 		49A264C216E7B13D004943C8 /* vader.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 49A264C016E7B13D004943C8 /* vader.jpg */; };
 /* End PBXBuildFile section */
@@ -126,7 +125,6 @@
 		49A264B516E79320004943C8 /* zbar-help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "zbar-help.html"; sourceTree = "<group>"; };
 		49A264B616E79320004943C8 /* zbar-helpicons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-helpicons.png"; sourceTree = "<group>"; };
 		49A264B716E79320004943C8 /* zbar-samples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-samples.png"; sourceTree = "<group>"; };
-		49A264BD16E79893004943C8 /* icon_iPad_Retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_iPad_Retina.png; path = ../icon_iPad_Retina.png; sourceTree = "<group>"; };
 		49A264BF16E7B13D004943C8 /* separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator.png; sourceTree = "<group>"; };
 		49A264C016E7B13D004943C8 /* vader.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = vader.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,7 +198,6 @@
 			children = (
 				49A264BF16E7B13D004943C8 /* separator.png */,
 				49A264C016E7B13D004943C8 /* vader.jpg */,
-				49A264BD16E79893004943C8 /* icon_iPad_Retina.png */,
 				49A2642016E791A1004943C8 /* Menu Scanner-Info.plist */,
 				49A2642116E791A1004943C8 /* InfoPlist.strings */,
 				49A2642416E791A1004943C8 /* main.m */,
@@ -438,7 +435,6 @@
 				49A264BA16E79321004943C8 /* zbar-help.html in Resources */,
 				49A264BB16E79321004943C8 /* zbar-helpicons.png in Resources */,
 				49A264BC16E79321004943C8 /* zbar-samples.png in Resources */,
-				49A264BE16E79893004943C8 /* icon_iPad_Retina.png in Resources */,
 				49A264C116E7B13D004943C8 /* separator.png in Resources */,
 				49A264C216E7B13D004943C8 /* vader.jpg in Resources */,
 			);
