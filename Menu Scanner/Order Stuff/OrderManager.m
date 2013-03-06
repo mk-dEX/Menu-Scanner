@@ -14,8 +14,8 @@
 @property (strong) NSMutableArray *registeredOrders;
 @property (strong) NSMutableArray *filteredOrders;
 @property (strong) NSString *filterString;
-@property (assign) Boolean *isFiltered;
-@property (assign) NSUInteger downloadsLeft;
+@property (assign) BOOL isFiltered;
+@property (assign) unsigned int downloadsLeft;
 @property (strong) OrderCollectionDownloader *orderCollectionDownloader;
 @property (strong) ProductInfoDownloader *productInfoDownloader;
 @property (strong) StringFormatter *formatter;
@@ -153,7 +153,6 @@ static OrderManager *_instance;
     if (isDate) {
         filterDate = [formatter dateFromString:filterString];
         if (!filterDate) {
-            NSLog(@"No date");
             return;
         }
     }
