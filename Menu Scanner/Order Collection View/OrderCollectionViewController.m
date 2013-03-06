@@ -28,9 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSLog(@"View did load");
-    
+        
     UIRefreshControl *refreshControl = [UIRefreshControl new];
     [refreshControl addTarget:self action:@selector(reloadTableData:) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
