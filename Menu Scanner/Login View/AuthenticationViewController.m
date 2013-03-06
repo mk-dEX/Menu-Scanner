@@ -7,17 +7,26 @@
 //
 
 #import "AuthenticationViewController.h"
-#import "LoginInfoCell.h"
+
+@interface AuthenticationViewController ()
+@property (strong, nonatomic) UITextField *loginId;
+@property (strong, nonatomic) UITextField *password;
+@end
 
 @implementation AuthenticationViewController
 
 @synthesize tableView;
+@synthesize loginButton;
+@synthesize activityIndicator;
+
+@synthesize loginId;
+@synthesize password;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [tableView setBackgroundView:nil];
-    [self.view setBackgroundColor:[UIColor underPageBackgroundColor]];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 }
 
 #pragma mark - Table view data source
@@ -29,37 +38,61 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    LoginInfoCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *cellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (indexPath.row == 0) {
-        cell.info.placeholder = @"Login Name";
+        loginId = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, 280, 21)];
+        loginId .placeholder = @"Login Name";
+        loginId.text = @"";
+        loginId .autocorrectionType = UITextAutocorrectionTypeNo;
+        [loginId setClearButtonMode:UITextFieldViewModeWhileEditing];
+        cell.accessoryView = loginId ;
+        loginId.delegate = self;
+        
+        [self.tableView addSubview:loginId];
     }
-    else {
-        cell.info.placeholder = @"Passwort";
-        cell.info.secureTextEntry = YES;
+    if (indexPath.row == 1) {
+        password = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, 280, 21)];
+        password.placeholder = @"Passwort";
+        password.text = @"";
+        password.secureTextEntry = YES;
+        password.autocorrectionType = UITextAutocorrectionTypeNo;
+        [password setClearButtonMode:UITextFieldViewModeWhileEditing];
+        cell.accessoryView = password;
+        password.delegate = self;
+        
+        [self.tableView addSubview:password];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    [self authenticateUser:textField];
+    
+    if (textField == loginId && [password.text isEqualToString:@""]) {
+        [password becomeFirstResponder];
+    }
+    else if (textField == password && [loginId.text isEqualToString:@""]) {
+        [loginId becomeFirstResponder];
+    }
+    else {
+        [self authenticateUser:textField];
+    }
+    
     return YES;
 }
 
 - (IBAction)authenticateUser:(id)sender
-{    
-    LoginInfoCell *nameCell = (LoginInfoCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    LoginInfoCell *keyCell = (LoginInfoCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-
-    [nameCell.info resignFirstResponder];
-    [keyCell.info resignFirstResponder];
+{
+    [self animateLogin:YES];
     
-    NSString *name = nameCell.info.text;
-    NSString *key = keyCell.info.text;
+    NSString *name = loginId.text;
+    NSString *key = password.text;
     
     LoginChecker *loginChecker = [LoginChecker new];
     loginChecker.delegate = self;
@@ -68,6 +101,8 @@
 
 - (void)loginIsValid:(BOOL)valid
 {
+    [self animateLogin:NO];
+    
     if (!valid)
     {
         NSString *msg = @"Das von dir eingegebene Passwort stimmt nicht. Bitte versuche es noch einmal.";
@@ -89,6 +124,18 @@
         }
         
         self.topViewController = [storyboard instantiateViewControllerWithIdentifier:@"Navigation"];
+    }
+}
+
+- (void)animateLogin:(BOOL)doAnimate
+{
+    if (doAnimate) {
+        [activityIndicator startAnimating];
+        [loginButton setTitle:@"Anmeldung erfolgt …" forState:UIControlStateNormal];
+    }
+    else {
+        [activityIndicator stopAnimating];
+        [loginButton setTitle:@"Anmelden" forState:UIControlStateNormal];
     }
 }
 
