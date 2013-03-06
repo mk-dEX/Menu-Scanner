@@ -7,11 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import "ZBarSDK.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [ZBarReaderView class];
+    
     // Override point for customization after application launch.
     return YES;
 }

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49375F3F16E7D6F5002CD3E8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F3E16E7D6F5002CD3E8 /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		49375F4116E7D703002CD3E8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4016E7D703002CD3E8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		49375F4316E7D70E002CD3E8 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4216E7D70E002CD3E8 /* CoreVideo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		49375F4516E7D71A002CD3E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4416E7D71A002CD3E8 /* QuartzCore.framework */; };
+		49375F4716E7D72D002CD3E8 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4616E7D72D002CD3E8 /* libiconv.dylib */; };
+		49375F4916E7D734002CD3E8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4816E7D734002CD3E8 /* Security.framework */; };
 		49A2641916E791A1004943C8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641816E791A1004943C8 /* UIKit.framework */; };
 		49A2641B16E791A1004943C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641A16E791A1004943C8 /* Foundation.framework */; };
 		49A2641D16E791A1004943C8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641C16E791A1004943C8 /* CoreGraphics.framework */; };
@@ -47,6 +53,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49375F3E16E7D6F5002CD3E8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		49375F4016E7D703002CD3E8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		49375F4216E7D70E002CD3E8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		49375F4416E7D71A002CD3E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		49375F4616E7D72D002CD3E8 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		49375F4816E7D734002CD3E8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		49A2641516E791A1004943C8 /* Menu Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Menu Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A2641816E791A1004943C8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		49A2641A16E791A1004943C8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -134,6 +146,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49375F4916E7D734002CD3E8 /* Security.framework in Frameworks */,
+				49375F4716E7D72D002CD3E8 /* libiconv.dylib in Frameworks */,
+				49375F4516E7D71A002CD3E8 /* QuartzCore.framework in Frameworks */,
+				49375F4316E7D70E002CD3E8 /* CoreVideo.framework in Frameworks */,
+				49375F4116E7D703002CD3E8 /* CoreMedia.framework in Frameworks */,
+				49375F3F16E7D6F5002CD3E8 /* AVFoundation.framework in Frameworks */,
 				49A2641916E791A1004943C8 /* UIKit.framework in Frameworks */,
 				49A2641B16E791A1004943C8 /* Foundation.framework in Frameworks */,
 				49A2641D16E791A1004943C8 /* CoreGraphics.framework in Frameworks */,
@@ -164,6 +182,12 @@
 		49A2641716E791A1004943C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				49375F4816E7D734002CD3E8 /* Security.framework */,
+				49375F4616E7D72D002CD3E8 /* libiconv.dylib */,
+				49375F4416E7D71A002CD3E8 /* QuartzCore.framework */,
+				49375F4216E7D70E002CD3E8 /* CoreVideo.framework */,
+				49375F4016E7D703002CD3E8 /* CoreMedia.framework */,
+				49375F3E16E7D6F5002CD3E8 /* AVFoundation.framework */,
 				49A2641816E791A1004943C8 /* UIKit.framework */,
 				49A2641A16E791A1004943C8 /* Foundation.framework */,
 				49A2641C16E791A1004943C8 /* CoreGraphics.framework */,
