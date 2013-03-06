@@ -71,9 +71,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    
+{    
     if (textField == loginId && [password.text isEqualToString:@""]) {
         [password becomeFirstResponder];
     }
@@ -90,6 +88,9 @@
 - (IBAction)authenticateUser:(id)sender
 {
     [self animateLogin:YES];
+    
+    [loginId resignFirstResponder];
+    [password resignFirstResponder];
     
     NSString *name = loginId.text;
     NSString *key = password.text;
