@@ -17,6 +17,7 @@
 
 @interface OrderViewController ()
 @property (strong, nonatomic) Order *currentOrder;
+@property (strong, nonatomic) NSMutableDictionary *pictureManager;
 @property (strong, nonatomic) StringFormatter *formatter;
 @end
 
@@ -24,8 +25,9 @@
 
 @synthesize navigationItem;
 @synthesize collectionView;
-@synthesize currentOrder;
 
+@synthesize currentOrder;
+@synthesize pictureManager;
 @synthesize formatter;
 
 #pragma mark - View Handling
@@ -38,6 +40,7 @@
     self.navigationItem.rightBarButtonItems = @[showCamera, addItem];
     
     self.currentOrder = [Order new];
+    self.pictureManager = [NSMutableDictionary new];
     
 
     [self.currentOrder setCategories:@[@"Keine Bestellungen hinterlegt"]];
@@ -109,14 +112,22 @@
     [cell.price setText:[NSString stringWithFormat:@"@ %@", [formatter currencyString:product.price]]];
     [cell.total setText:[formatter currencyString:totalPrice]];
     
-    dispatch_async(dispatch_get_global_queue(0,0), ^{
-        NSData *data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: product.imageURL]];
-        if (data == nil)
-            return;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.picture.image = [UIImage imageWithData:data];
+    UIImage *cachedImage = [self.pictureManager objectForKey:product.imageURL];
+    if (cachedImage != nil) {
+        cell.picture.image = cachedImage;
+    }
+    else {
+        dispatch_async(dispatch_get_global_queue(0,0), ^{
+            NSData *data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: product.imageURL]];
+            if (data == nil)
+                return;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIImage *image = [UIImage imageWithData:data];
+                cell.picture.image = image;
+                [self.pictureManager setValue:image forKey:product.imageURL];
+            });
         });
-    });
+    }
     
     CALayer *layer = cell.layer;
     [layer setMasksToBounds:NO];
