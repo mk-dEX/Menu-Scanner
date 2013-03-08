@@ -26,7 +26,6 @@
     [super viewDidLoad];
     
     [tableView setBackgroundView:nil];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 }
 
 #pragma mark - Table view data source
@@ -94,7 +93,7 @@
     
     NSString *name = loginId.text;
     NSString *key = password.text;
-    
+        
     LoginChecker *loginChecker = [LoginChecker new];
     loginChecker.delegate = self;
     [loginChecker authenticateWithUserName:name andPassword:key];
