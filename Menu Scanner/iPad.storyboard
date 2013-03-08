@@ -166,48 +166,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7p3-2P-kur" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2148" y="-1012"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="pKI-wd-iNW">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="e39-wv-q0d" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackTranslucent" id="rfh-vr-1Vj">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="gnN-6p-DPL" kind="relationship" relationship="rootViewController" id="stY-HV-2BV"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XcC-pl-3Sd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2148" y="-167"/>
+            <point key="canvasLocation" x="-1174" y="-1012"/>
         </scene>
         <!--Reader View Controller-->
         <scene sceneID="Nd8-B4-FzF">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kTU-Px-rXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="gnN-6p-DPL" customClass="ReaderViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wUT-Ed-d1n" customClass="ZBarReaderView">
-                        <rect key="frame" x="0.0" y="20" width="540" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="RpG-mp-GsH">
+                                <items>
+                                    <navigationItem id="4qU-ZH-m8P">
+                                        <barButtonItem key="leftBarButtonItem" title="Schließen" id="6qy-FH-cPH">
+                                            <connections>
+                                                <action selector="closeForm:" destination="gnN-6p-DPL" id="p7K-qV-uW8"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="RpG-mp-GsH" firstAttribute="top" secondItem="wUT-Ed-d1n" secondAttribute="top" type="default" id="MVv-nC-juC"/>
+                            <constraint firstItem="RpG-mp-GsH" firstAttribute="leading" secondItem="wUT-Ed-d1n" secondAttribute="leading" type="default" id="X4k-8G-T5b"/>
+                            <constraint firstItem="RpG-mp-GsH" firstAttribute="trailing" secondItem="wUT-Ed-d1n" secondAttribute="trailing" type="default" id="h2x-9b-7Ru"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="hOg-zE-vsY" appends="YES" id="Mh0-YI-gQJ"/>
+                        </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="0HK-jw-szn">
-                        <barButtonItem key="rightBarButtonItem" title="Schließen" id="pXw-jG-gst">
-                            <connections>
-                                <action selector="closeForm:" destination="gnN-6p-DPL" id="62F-EN-cMO"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="reader" destination="wUT-Ed-d1n" id="fR2-fP-Gyz"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kTU-Px-rXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="hOg-zE-vsY">
+                    <connections>
+                        <action selector="closeForm:" destination="gnN-6p-DPL" id="fhc-aO-ji6"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1492" y="-167"/>
+            <point key="canvasLocation" x="-1174" y="-275"/>
         </scene>
-        <!--Order Collection View Controller-->
+        <!--Order Collection View Controller - Bestellungen-->
         <scene sceneID="e0i-3v-6QJ">
             <objects>
                 <tableViewController storyboardIdentifier="OrderCollection" id="mbB-Ey-Afp" customClass="OrderCollectionViewController" sceneMemberID="viewController">
@@ -274,11 +280,14 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Bestellungen" id="yp8-1r-Uzb">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="H6U-Rq-Vng"/>
+                    </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Mz-WQ-IYx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3722" y="-851"/>
+            <point key="canvasLocation" x="-2748" y="-851"/>
         </scene>
         <!--Order View Controller-->
         <scene sceneID="Nup-Fz-HXb">
@@ -419,13 +428,13 @@
                     <connections>
                         <outlet property="collectionView" destination="h4E-RC-Z5E" id="V11-fT-55Y"/>
                         <outlet property="navigationItem" destination="BoB-Mb-Lat" id="FVv-4s-dGm"/>
-                        <segue destination="e39-wv-q0d" kind="modal" identifier="ReaderView" modalPresentationStyle="formSheet" modalTransitionStyle="coverVertical" id="0HI-MZ-tcW"/>
                         <segue destination="tRe-89-1Cj" kind="modal" identifier="ItemView" modalPresentationStyle="formSheet" modalTransitionStyle="coverVertical" id="wEp-7s-G4Y"/>
+                        <segue destination="gnN-6p-DPL" kind="modal" identifier="ReaderView" modalPresentationStyle="formSheet" modalTransitionStyle="coverVertical" id="cnG-V5-u9s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3R0-p4-Uil" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3175" y="-851"/>
+            <point key="canvasLocation" x="-2201" y="-851"/>
         </scene>
     </scenes>
     <resources>
