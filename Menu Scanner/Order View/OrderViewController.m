@@ -165,6 +165,9 @@
 - (void) displayProductInfos:(Order *)order
 {
     currentOrder = order;
+    
+    [self.navigationItem setTitle:[NSString stringWithFormat:@"Bestellung vom %@", [formatter dateString:currentOrder.timestamp]]];
+    
     [self.collectionView reloadData];
 }
 
