@@ -72,11 +72,8 @@
 {
     if ([segue.identifier isEqualToString:@"ReaderView"])
     {
-        UINavigationController *navController = segue.destinationViewController;
-        
-        if ([[navController topViewController] respondsToSelector:@selector(delegate)]) {
-            ((ReaderViewController *)[navController topViewController]).delegate = self;
-        }
+        ReaderViewController *reader = segue.destinationViewController;
+        reader.delegate = self;
     }
 }
 
