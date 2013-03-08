@@ -142,6 +142,7 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="LU4-5f-znL" firstAttribute="bottom" secondItem="DZw-vH-ohr" secondAttribute="bottom" type="default" id="2Ma-uc-5Kw"/>
                             <constraint firstItem="G2i-KK-M86" firstAttribute="top" secondItem="pz5-aT-EVh" secondAttribute="top" constant="125" id="4dQ-dg-Wjm"/>
@@ -159,19 +160,26 @@
                             <constraint firstItem="FCu-WX-eGA" firstAttribute="top" secondItem="pz5-aT-EVh" secondAttribute="top" type="default" id="mnY-hu-Vwi"/>
                             <constraint firstItem="D0z-MO-bVs" firstAttribute="leading" secondItem="pz5-aT-EVh" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="uhV-6W-Osf"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Wnm-7A-GHg" appends="YES" id="K6M-A9-hgd"/>
+                        </connections>
                     </view>
                     <toolbarItems/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7p3-2P-kur" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="Wnm-7A-GHg">
+                    <connections>
+                        <action selector="closeForm:" destination="tRe-89-1Cj" id="hb0-RN-wtE"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1174" y="-1012"/>
         </scene>
         <!--Reader View Controller-->
         <scene sceneID="Nd8-B4-FzF">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kTU-Px-rXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="gnN-6p-DPL" customClass="ReaderViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wUT-Ed-d1n" customClass="ZBarReaderView">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
@@ -205,6 +213,7 @@
                         <outlet property="reader" destination="wUT-Ed-d1n" id="fR2-fP-Gyz"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kTU-Px-rXo" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="down" id="hOg-zE-vsY">
                     <connections>
                         <action selector="closeForm:" destination="gnN-6p-DPL" id="fhc-aO-ji6"/>
