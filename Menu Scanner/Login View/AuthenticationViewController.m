@@ -7,6 +7,7 @@
 //
 
 #import "AuthenticationViewController.h"
+#import "SecurityManager.h"
 
 @interface AuthenticationViewController ()
 @property (strong, nonatomic) UITextField *loginId;
@@ -69,13 +70,25 @@
     return cell;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{    
-    if (textField == loginId && [password.text isEqualToString:@""]) {
-        [password becomeFirstResponder];
+#pragma mark - UITextField Delegates
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    UITextField *other = textField == loginId ? password : loginId;
+    if ([other.text length] == 0) {
+        [textField setReturnKeyType:UIReturnKeyNext];
     }
-    else if (textField == password && [loginId.text isEqualToString:@""]) {
-        [loginId becomeFirstResponder];
+    else {
+        [textField setReturnKeyType:UIReturnKeyGo];
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    UITextField *other = textField == loginId ? password : loginId;
+    if ([other.text length] == 0) {
+        [other becomeFirstResponder];
     }
     else {
         [self authenticateUser:textField];
@@ -83,6 +96,8 @@
     
     return YES;
 }
+
+#pragma mark - Authentication Actions
 
 - (IBAction)authenticateUser:(id)sender
 {
@@ -96,7 +111,7 @@
         
     LoginChecker *loginChecker = [LoginChecker new];
     loginChecker.delegate = self;
-    [loginChecker authenticateWithUserName:name andPassword:key];
+    [loginChecker authenticateWithPassword:key forName:name];
 }
 
 - (void)loginIsValid:(BOOL)valid
@@ -106,25 +121,26 @@
     if (!valid)
     {
         NSString *msg = @"Das von dir eingegebene Passwort stimmt nicht. Bitte versuche es noch einmal.";
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Falsches Passwort"
-                                                        message:msg
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        [self presentInfo:msg withTitle:@"Fehler"];
     }
     else
     {
-        UIStoryboard *storyboard;
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            storyboard = [UIStoryboard storyboardWithName:@"iPhone" bundle:nil];
-        } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            storyboard = [UIStoryboard storyboardWithName:@"iPad" bundle:nil];
+        BOOL successfullyStored = [self storeLoginData];
+        if (successfullyStored) {
+            [self presentOrderView];
         }
-        
-        self.topViewController = [storyboard instantiateViewControllerWithIdentifier:@"Navigation"];
+        else {
+            NSString *msg = @"Fehler beim Abspeichern des Passworts.";
+            [self presentInfo:msg withTitle:@"Achtung!"];
+        }
     }
+}
+
+- (BOOL)storeLoginData
+{
+    NSString *selectedUser = loginId.text;
+    NSString *selectedPassword = password.text;
+    return [SecurityManager storeUserName:selectedUser] & [SecurityManager storePassword:selectedPassword forUser:selectedUser];
 }
 
 - (void)animateLogin:(BOOL)doAnimate
@@ -137,6 +153,29 @@
         [activityIndicator stopAnimating];
         [loginButton setTitle:@"Anmelden" forState:UIControlStateNormal];
     }
+    [loginId setUserInteractionEnabled:!doAnimate];
+    [password setUserInteractionEnabled:!doAnimate];
+}
+
+- (void)presentInfo:(NSString *)infoText withTitle:(NSString *)infoTitle
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:infoTitle
+                                                    message:infoText
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)presentOrderView
+{
+    UIStoryboard *storyboard;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        storyboard = [UIStoryboard storyboardWithName:@"iPhone" bundle:nil];
+    } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        storyboard = [UIStoryboard storyboardWithName:@"iPad" bundle:nil];
+    }
+    self.topViewController = [storyboard instantiateViewControllerWithIdentifier:@"Navigation"];
 }
 
 @end
