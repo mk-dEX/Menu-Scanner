@@ -18,7 +18,6 @@
 @interface OrderViewController ()
 @property (strong, nonatomic) Order *currentOrder;
 @property (strong, nonatomic) NSMutableDictionary *pictureManager;
-@property (strong, nonatomic) StringFormatter *formatter;
 @end
 
 @implementation OrderViewController
@@ -28,11 +27,10 @@
 
 @synthesize currentOrder;
 @synthesize pictureManager;
-@synthesize formatter;
 
 #pragma mark - View Handling
 
-- (void) viewDidLoad
+- (void)viewDidLoad
 {
     UIBarButtonItem *showCamera = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCamera:)];
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithTitle:@"Neues Produkt" style:UIBarButtonItemStyleBordered target:self action:@selector(addNewItem:)];
@@ -47,11 +45,9 @@
     [self.currentOrder setProducts:@{@"Keine Bestellungen hinterlegt": @[]}];
     [self.currentOrder setTotalCosts:@0];
     [self.currentOrder setTimestamp:[NSDate dateWithTimeIntervalSinceNow:0]];
-    
-    formatter = [StringFormatter new];
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     if (![self.slidingViewController.underLeftViewController isKindOfClass:[OrderCollectionViewController class]])
     {
@@ -64,7 +60,7 @@
     self.view.layer.shadowRadius = 10.0f;
     self.view.layer.shadowColor = [UIColor blackColor].CGColor;
     
-    [self.slidingViewController setAnchorRightRevealAmount:280.0f];
+    [self.slidingViewController setAnchorRightRevealAmount:300.0];
     self.slidingViewController.shouldAllowPanningPastAnchor = NO;
     
     [self.collectionView setBackgroundColor:[UIColor underPageBackgroundColor]];
@@ -109,8 +105,8 @@
     NSString *descr = [count stringByAppendingFormat:@" %@", product.name];
     
     [cell.descr setText:descr];
-    [cell.price setText:[NSString stringWithFormat:@"@ %@", [formatter currencyString:product.price]]];
-    [cell.total setText:[formatter currencyString:totalPrice]];
+    [cell.price setText:[NSString stringWithFormat:@"@ %@", [[StringFormatter currencyFormatter] stringFromNumber:product.price]]];
+    [cell.total setText:[[StringFormatter currencyFormatter] stringFromNumber:totalPrice]];
     
     UIImage *cachedImage = [self.pictureManager objectForKey:product.imageURL];
     if (cachedImage != nil) {
@@ -148,7 +144,7 @@
     {
         NSNumber *orderCosts = currentOrder.totalCosts;
         if ([orderCosts longValue] == 0) {
-            [headerView.headerTitle setText:@"Bestellung ist leer"];
+            [headerView.headerTitle setText:@"Die Bestellung ist leer"];
         }
         else
         {
@@ -170,11 +166,11 @@
 
 #pragma mark - Collection View Management
 
-- (void) displayProductInfos:(Order *)order
+- (void)displayProductInfos:(Order *)order
 {
     currentOrder = order;
     
-    [self.navigationItem setTitle:[NSString stringWithFormat:@"Bestellung vom %@", [formatter dateString:currentOrder.timestamp]]];
+    [self.navigationItem setTitle:[NSString stringWithFormat:@"Bestellung vom %@", [[StringFormatter dateFormatter] stringFromDate:currentOrder.timestamp]]];
     
     [self.collectionView reloadData];
 }
@@ -201,7 +197,7 @@
 
 #pragma mark - Reader Delegates
 
-- (void) reader:(ReaderViewController *)reader didFinishWithHash:(NSString *)hash
+- (void)reader:(ReaderViewController *)reader didFinishWithHash:(NSString *)hash
 {
     [reader dismissViewControllerAnimated:YES completion:nil];
     
@@ -212,7 +208,7 @@
 
 #pragma mark - Order Collection View Delegates
 
-- (void) orderView:(OrderCollectionViewController *)sender didSelectOrder:(Order *)order
+- (void)orderView:(OrderCollectionViewController *)sender didSelectOrder:(Order *)order
 {
     [self.slidingViewController resetTopView];
     [self displayProductInfos:order];
@@ -220,7 +216,7 @@
 
 #pragma mark - REST Delegates
 
-- (void) download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order
+- (void)download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order
 {
     OrderManager *manager = [OrderManager getInstance];
     [manager addOrder:order];
