@@ -14,4 +14,5 @@
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UILabel *costs;
 @property (strong, nonatomic) Order *order;
+@property (strong, nonatomic) NSString *orderId;
 @end
