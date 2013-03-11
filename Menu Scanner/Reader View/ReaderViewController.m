@@ -55,7 +55,7 @@
         break;
     }
         
-    if (![hash isEqualToString:@""] && delegate != nil) {
+    if ([hash length] > 0 && delegate != nil) {
         [delegate reader:self didFinishWithHash:hash];
     }
 }
