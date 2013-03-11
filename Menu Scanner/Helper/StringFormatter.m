@@ -8,55 +8,36 @@
 
 #import "StringFormatter.h"
 
-@interface StringFormatter ()
-@property (strong, nonatomic) NSDateFormatter *dateFormatter;
-@property (strong, nonatomic) NSDateFormatter *timeFormatter;
-@property (strong, nonatomic) NSNumberFormatter *priceFormatter;
-@end
-
 @implementation StringFormatter
 
-@synthesize dateFormatter;
-@synthesize timeFormatter;
-@synthesize priceFormatter;
-
-- (id)init
++ (NSNumberFormatter *)numberFormatter
 {
-    if (self = [super init])
-    {
-        dateFormatter = [NSDateFormatter new];
-        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        
-        timeFormatter = [NSDateFormatter new];
-        [timeFormatter setTimeStyle:NSDateFormatterShortStyle];
-        [timeFormatter setDateStyle:NSDateFormatterNoStyle];
-        
-        priceFormatter = [NSNumberFormatter new];
-        [priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    }
-    return self;
+    NSNumberFormatter *formatter = [NSNumberFormatter new];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    return formatter;
 }
 
-
-- (NSString *)currencyString:(NSNumber *)original
++ (NSNumberFormatter *)currencyFormatter
 {
-    return [priceFormatter stringFromNumber:original];
+    NSNumberFormatter *formatter = [NSNumberFormatter new];
+    [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    return formatter;
 }
 
-- (NSString *)timeString:(NSDate *)original
++ (NSDateFormatter *)timeFormatter
 {
-    return [timeFormatter stringFromDate:original];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateStyle:NSDateFormatterNoStyle];
+    return formatter;
 }
 
-- (NSString *)dateString:(NSDate *)original
++ (NSDateFormatter *)dateFormatter
 {
-    return [dateFormatter stringFromDate:original];
-}
-
-- (NSDate *)dateFromString:(NSString *)date
-{
-    return [dateFormatter dateFromString:date];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setTimeStyle:NSDateFormatterNoStyle];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    return formatter;
 }
 
 @end

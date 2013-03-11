@@ -10,10 +10,9 @@
 
 @interface StringFormatter : NSObject
 
-- (NSString *)currencyString:(NSNumber *)original;
-- (NSString *)timeString:(NSDate *)original;
-- (NSString *)dateString:(NSDate *)original;
-
-- (NSDate *)dateFromString:(NSString *)date;
++ (NSNumberFormatter *)numberFormatter;
++ (NSNumberFormatter *)currencyFormatter;
++ (NSDateFormatter *)timeFormatter;
++ (NSDateFormatter *)dateFormatter;
 
 @end
