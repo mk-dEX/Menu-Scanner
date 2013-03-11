@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 Marc Kirchmann. All rights reserved.
 //
 
-#import "RESTConnection.h"
+#import "SecureRESTConnection.h"
 
 @class OrderCollectionDownloader;
 @protocol OrderCollectionDownloaderDelegate
 - (void) download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orderRefs;
 @end
 
-@interface OrderCollectionDownloader : RESTConnection
+@interface OrderCollectionDownloader : SecureRESTConnection
 @property (weak) id<OrderCollectionDownloaderDelegate> delegate;
 - (void) startDownload;
 @end

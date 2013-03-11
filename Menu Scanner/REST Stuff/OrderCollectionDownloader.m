@@ -8,6 +8,7 @@
 
 #import "OrderCollectionDownloader.h"
 #import "OrderRef.h"
+#import "SecurityManager.h"
 
 NSString const *ORDER_ID    = @"id";
 NSString const *ORDER_HASH  = @"hash";
@@ -17,15 +18,16 @@ NSString const *ORDER_TIME  = @"orderTime";
 
 @synthesize delegate;
 
-- (void) startDownload
+- (void)startDownload
 {
     NSURL *url = [NSURL URLWithString:@"http://api.codingduck.de/orders/"];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    [request setHTTPMethod:@"POST"];
-    [self executeRequest:request];
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url];
+    if (secureRequest) {
+        [self executeRequest:secureRequest];
+    }
 }
 
-- (void) processData:(id)json
+- (void)processData:(id)json
 {
     NSMutableArray *orderRefs = [NSMutableArray new];
     
@@ -41,8 +43,7 @@ NSString const *ORDER_TIME  = @"orderTime";
         [orderRefs addObject:or];
     }
     
-    if (self.delegate)
-    {   
+    if (self.delegate) {   
         [self.delegate download:self didFinishWithOrderCollection:orderRefs];
     }
 }
