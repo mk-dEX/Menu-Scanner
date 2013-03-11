@@ -15,7 +15,6 @@
 
 @interface OrderCollectionViewController ()
 @property (strong, nonatomic) OrderManager *orderManager;
-@property (strong, nonatomic) StringFormatter *formatter;
 @end
 
 @implementation OrderCollectionViewController
@@ -23,7 +22,6 @@
 @synthesize delegate;
 
 @synthesize orderManager;
-@synthesize formatter;
 
 - (void)viewDidLoad
 {
@@ -36,8 +34,9 @@
     [self.view setBackgroundColor:[UIColor darkGrayColor]];
     [self.tableView setSeparatorColor:[UIColor grayColor]];
     
-    formatter = [StringFormatter new];
-    orderManager = [OrderManager new];
+    self.clearsSelectionOnViewWillAppear = YES;
+    
+    orderManager = [OrderManager getInstance];
     orderManager.delegate = self;
     
     [self reloadTableData:self];
@@ -45,13 +44,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self setTableViewWidthTo:280];
+    [self setTableViewWidthTo:300];
     self.tableView.contentOffset = CGPointMake(0.0, 44.0);
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self setTableViewWidthTo:280];
+    [self setTableViewWidthTo:300];
 }
 
 - (void) setTableViewWidthTo:(CGFloat)width
@@ -80,9 +79,9 @@
 
     Order *o = [[orderManager orders] objectAtIndex:indexPath.row];
     
-    [cell.date setText:[formatter dateString:o.timestamp]];
-    [cell.time setText:[formatter timeString:o.timestamp]];
-    [cell.costs setText:[formatter currencyString:o.totalCosts]];
+    [cell.date setText:[[StringFormatter dateFormatter] stringFromDate:o.timestamp]];
+    [cell.time setText:[[StringFormatter timeFormatter] stringFromDate:o.timestamp]];
+    [cell.costs setText:[[StringFormatter currencyFormatter] stringFromNumber:o.totalCosts]];
     
     cell.order = o;
     
@@ -126,7 +125,7 @@
 {
     OrderInfoCell *selectedCell = (OrderInfoCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     Order *selectedOrder = selectedCell.order;
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (delegate)
     {
