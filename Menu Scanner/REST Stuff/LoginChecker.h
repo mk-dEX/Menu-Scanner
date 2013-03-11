@@ -6,14 +6,15 @@
 //  Copyright (c) 2013 Marc Kirchmann. All rights reserved.
 //
 
-#import "RESTConnection.h"
+#import "SecureRESTConnection.h"
 
 @class LoginChecker;
 @protocol LoginCheckerDelegate
 - (void)loginIsValid:(BOOL)valid;
 @end
 
-@interface LoginChecker : RESTConnection
+@interface LoginChecker : SecureRESTConnection
 @property (weak) id<LoginCheckerDelegate> delegate;
-- (void)authenticateWithUserName:(NSString *)name andPassword:(NSString *)key;
+- (void)authenticate;
+- (void)authenticateWithPassword:(NSString *)password forName:(NSString *)user;
 @end

@@ -7,64 +7,51 @@
 //
 
 #import "LoginChecker.h"
-#import <CommonCrypto/CommonHMAC.h>
+#import "SecurityManager.h"
 
 @implementation LoginChecker
 @synthesize delegate;
 
-- (void)authenticateWithUserName:(NSString *)name andPassword:(NSString *)key
+- (void)authenticateWithPassword:(NSString *)password forName:(NSString *)user
 {
     NSURL *url = [NSURL URLWithString:@"http://api.codingduck.de/login/check"];
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url withName:user andPassword:password];
     
-    long timestamp = 1360711772;//(long)[[NSDate date] timeIntervalSince1970];
-    NSString *signature = [NSString stringWithFormat:@"%@.%@.%ld", @"/login/check", name, timestamp];
-    NSString *signatureHash = [self hashString:signature withSalt:key];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    [request setValue:[NSString stringWithFormat:@"%ld", timestamp] forHTTPHeaderField:@"QRAuth_timestamp"];
-    [request setValue:signatureHash forHTTPHeaderField:@"QRAuth_signature"];
-    [request setValue:name forHTTPHeaderField:@"QRAuth_username"];
-    [request setHTTPMethod:@"POST"];
-    
-    [self executeRequest:request];
+    if (secureRequest) {
+        [self executeRequest:secureRequest];
+    }
+    else {
+        [self notifySuccess:NO];
+    }
 }
 
-- (void) processData:(id)json
+- (void)authenticate
+{
+    NSURL *url = [NSURL URLWithString:@"http://api.codingduck.de/login/check"];
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url];
+
+    if (secureRequest) {
+        [self executeRequest:secureRequest];
+    }
+    else {
+        [self notifySuccess:NO];
+    }
+}
+
+- (void)notifySuccess:(BOOL)isValid
+{
+    if (delegate) {
+        [delegate loginIsValid:isValid];
+    }
+}
+
+- (void)processData:(id)json
 {
     NSDictionary *error = [(NSDictionary *)json objectForKey:@"error"];
     NSNumber *code = (NSNumber *)[error objectForKey:@"code"];
     
-    if (self.delegate)
-    {
-        int value = [code intValue];
-        if (value == 200) {
-            [self.delegate loginIsValid:YES];
-        }
-        else if (value == 401) {
-            [self.delegate loginIsValid:NO];
-        }
-    }
-}
-
-- (NSString *)hashString:(NSString *)data withSalt:(NSString *)salt
-{
-    const char *cKey  = [salt cStringUsingEncoding:NSUTF8StringEncoding];
-    const char *cData = [data cStringUsingEncoding:NSUTF8StringEncoding];
-    unsigned char cHMAC[CC_SHA256_DIGEST_LENGTH];
-    CCHmac(kCCHmacAlgSHA256, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
-    
-    NSString *hash;
-    
-    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
-    
-    for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++)
-    {
-        [output appendFormat:@"%02x", cHMAC[i]];
-    }
-    
-    hash = output;
-    return hash;
-    
+    int value = [code intValue];
+    [self notifySuccess:(value == 200)];
 }
 
 @end
