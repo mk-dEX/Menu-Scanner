@@ -13,6 +13,10 @@
 		49375F4516E7D71A002CD3E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4416E7D71A002CD3E8 /* QuartzCore.framework */; };
 		49375F4716E7D72D002CD3E8 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4616E7D72D002CD3E8 /* libiconv.dylib */; };
 		49375F4916E7D734002CD3E8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4816E7D734002CD3E8 /* Security.framework */; };
+		493C7B7A16EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 493C7B7916EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m */; };
+		493C7B7D16EDCFCE000ADBF3 /* SecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */; };
+		4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4970637116EE530800AC2737 /* SecureRESTConnection.m */; };
+		4983DCEA16EA98000038956E /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 4983DCE916EA98000038956E /* check.png */; };
 		49A2641916E791A1004943C8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641816E791A1004943C8 /* UIKit.framework */; };
 		49A2641B16E791A1004943C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641A16E791A1004943C8 /* Foundation.framework */; };
 		49A2641D16E791A1004943C8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641C16E791A1004943C8 /* CoreGraphics.framework */; };
@@ -59,6 +63,13 @@
 		49375F4416E7D71A002CD3E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		49375F4616E7D72D002CD3E8 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		49375F4816E7D734002CD3E8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		493C7B7816EDBFD1000ADBF3 /* ImagePickerOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerOptionsViewController.h; sourceTree = "<group>"; };
+		493C7B7916EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerOptionsViewController.m; sourceTree = "<group>"; };
+		493C7B7B16EDCFCE000ADBF3 /* SecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityManager.h; sourceTree = "<group>"; };
+		493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityManager.m; sourceTree = "<group>"; };
+		4970637016EE530800AC2737 /* SecureRESTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureRESTConnection.h; sourceTree = "<group>"; };
+		4970637116EE530800AC2737 /* SecureRESTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureRESTConnection.m; sourceTree = "<group>"; };
+		4983DCE916EA98000038956E /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		49A2641516E791A1004943C8 /* Menu Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Menu Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A2641816E791A1004943C8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		49A2641A16E791A1004943C8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -220,6 +231,7 @@
 		49A2641F16E791A1004943C8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4983DCE916EA98000038956E /* check.png */,
 				49A264BF16E7B13D004943C8 /* separator.png */,
 				49A264C016E7B13D004943C8 /* vader.jpg */,
 				49A2642016E791A1004943C8 /* Menu Scanner-Info.plist */,
@@ -249,6 +261,8 @@
 			children = (
 				49A2645B16E792DE004943C8 /* StringFormatter.h */,
 				49A2645C16E792DE004943C8 /* StringFormatter.m */,
+				493C7B7B16EDCFCE000ADBF3 /* SecurityManager.h */,
+				493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -258,6 +272,8 @@
 			children = (
 				49A2645E16E792DE004943C8 /* ItemViewController.h */,
 				49A2645F16E792DE004943C8 /* ItemViewController.m */,
+				493C7B7816EDBFD1000ADBF3 /* ImagePickerOptionsViewController.h */,
+				493C7B7916EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m */,
 			);
 			path = "Item View";
 			sourceTree = "<group>";
@@ -330,6 +346,8 @@
 				49A2648316E792DE004943C8 /* ProductInfoDownloader.m */,
 				49A2648416E792DE004943C8 /* RESTConnection.h */,
 				49A2648516E792DE004943C8 /* RESTConnection.m */,
+				4970637016EE530800AC2737 /* SecureRESTConnection.h */,
+				4970637116EE530800AC2737 /* SecureRESTConnection.m */,
 			);
 			path = "REST Stuff";
 			sourceTree = "<group>";
@@ -461,6 +479,7 @@
 				49A264BC16E79321004943C8 /* zbar-samples.png in Resources */,
 				49A264C116E7B13D004943C8 /* separator.png in Resources */,
 				49A264C216E7B13D004943C8 /* vader.jpg in Resources */,
+				4983DCEA16EA98000038956E /* check.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +511,9 @@
 				49A2649716E792DE004943C8 /* OrderCollectionDownloader.m in Sources */,
 				49A2649816E792DE004943C8 /* ProductInfoDownloader.m in Sources */,
 				49A2649916E792DE004943C8 /* RESTConnection.m in Sources */,
+				493C7B7A16EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m in Sources */,
+				493C7B7D16EDCFCE000ADBF3 /* SecurityManager.m in Sources */,
+				4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
