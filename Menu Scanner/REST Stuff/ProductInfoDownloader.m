@@ -8,6 +8,7 @@
 
 #import "ProductInfoDownloader.h"
 #import "Product.h"
+#import "StringFormatter.h"
 
 NSString const *SERVER_URL          = @"http://api.codingduck.de/orders/";
 NSString const *TOTAL_COSTS         = @"total";
@@ -49,11 +50,7 @@ NSString const *PRODUCT_IMAGE       = @"imageURL";
     NSString *timestamp = [json objectForKey:PRODUCT_TIME];
     NSArray *jsonProducts = [json objectForKey:PRODUCT_ITEMS];
     
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setNumberStyle:NSNumberFormatterNoStyle];
-    
-    NSNumberFormatter *floatFormatter = [[NSNumberFormatter alloc] init];
-    [floatFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumberFormatter *floatFormatter = [StringFormatter numberFormatter];
     [floatFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     
     NSString *category;
@@ -73,7 +70,7 @@ NSString const *PRODUCT_IMAGE       = @"imageURL";
         Product *p = [[Product alloc]
                       initWithName:[product objectForKey:PRODUCT_NAME]
                       price:[floatFormatter numberFromString:price]
-                      count:[numberFormatter numberFromString:count]];
+                      count:[[StringFormatter numberFormatter] numberFromString:count]];
 
         p.descr = [product objectForKey:PRODUCT_DESCRIPTION];
         p.unit = [product objectForKey:PRODUCT_UNIT];
