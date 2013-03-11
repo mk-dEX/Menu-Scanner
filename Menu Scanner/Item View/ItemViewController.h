@@ -7,8 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImagePickerOptionsViewController.h"
 
-@interface ItemViewController : UIViewController
+@interface ItemViewController : UIViewController <UITextFieldDelegate, ImagePickerOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (strong, nonatomic) IBOutlet UITextField *name;
+@property (strong, nonatomic) IBOutlet UITextField *category;
+@property (strong, nonatomic) IBOutlet UITextField *price;
+@property (strong, nonatomic) IBOutlet UITextView *descr;
+@property (strong, nonatomic) IBOutlet UIImageView *picture;
+
+@property (strong, nonatomic) IBOutlet UIImageView *checkName;
+@property (strong, nonatomic) IBOutlet UIImageView *checkCategory;
+@property (strong, nonatomic) IBOutlet UIImageView *checkPrice;
+
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *uploadIndicator;
 
 - (IBAction)closeForm:(id)sender;
 - (IBAction)closeFormAndSaveItem:(id)sender;
