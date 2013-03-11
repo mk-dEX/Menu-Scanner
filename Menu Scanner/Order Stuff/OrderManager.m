@@ -18,7 +18,6 @@
 @property (assign) unsigned int downloadsLeft;
 @property (strong) OrderCollectionDownloader *orderCollectionDownloader;
 @property (strong) ProductInfoDownloader *productInfoDownloader;
-@property (strong) StringFormatter *formatter;
 @end
 
 @implementation OrderManager
@@ -33,7 +32,6 @@ static OrderManager *_instance;
 @synthesize downloadsLeft;
 @synthesize orderCollectionDownloader;
 @synthesize productInfoDownloader;
-@synthesize formatter;
 
 #pragma mark - Singleton Management
 
@@ -54,7 +52,6 @@ static OrderManager *_instance;
         registeredOrders = [NSMutableArray new];
         isFiltered = false;
         downloadsLeft = 0;
-        formatter = [StringFormatter new];
         
         orderCollectionDownloader = [OrderCollectionDownloader new];
         orderCollectionDownloader.delegate = self;
@@ -151,7 +148,7 @@ static OrderManager *_instance;
     NSDate *filterDate;
     
     if (isDate) {
-        filterDate = [formatter dateFromString:filterString];
+        filterDate = [[StringFormatter dateFormatter] dateFromString:filterString];
         if (!filterDate) {
             return;
         }
@@ -173,7 +170,7 @@ static OrderManager *_instance;
         return [self order:order checkItems:filter];
     }
 
-    NSDate *filterDate = [formatter dateFromString:filter];
+    NSDate *filterDate = [[StringFormatter dateFormatter] dateFromString:filter];
     return filterDate != nil && [self order:order checkDate:filterDate];
 }
 
