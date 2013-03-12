@@ -26,7 +26,9 @@
 - (NSURLRequest *)secureRequestForUrl:(NSURL *)requestedUrl withName:(NSString *)user andPassword:(NSString *)password
 {
     long timestamp = (long)[[NSDate date] timeIntervalSince1970];
-    NSString *signature = [NSString stringWithFormat:@"%@.%@.%ld", @"/login/check", user, timestamp];
+    NSString *relativeUrl = [[requestedUrl absoluteString] stringByReplacingOccurrencesOfString:@"http://api.codingduck.de" withString:@""];
+    
+    NSString *signature = [NSString stringWithFormat:@"%@.%@.%ld", relativeUrl, user, timestamp];
     NSString *signatureHash = [SecurityManager hashString:signature withSalt:password];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestedUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
