@@ -8,14 +8,15 @@
 
 #import "LoginChecker.h"
 #import "SecurityManager.h"
+#import "MenuScannerConstants.h"
 
 @implementation LoginChecker
 @synthesize delegate;
 
 - (void)authenticateWithPassword:(NSString *)password forName:(NSString *)user
 {
-    NSURL *url = [NSURL URLWithString:@"http://api.codingduck.de/login/check"];
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url withName:user andPassword:password];
+    NSURL *url = [NSURL URLWithString:LOGIN_CHECKER_URL];
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST" withName:user andPassword:password];
     
     if (secureRequest) {
         [self executeRequest:secureRequest];
@@ -27,8 +28,8 @@
 
 - (void)authenticate
 {
-    NSURL *url = [NSURL URLWithString:@"http://api.codingduck.de/login/check"];
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url];
+    NSURL *url = [NSURL URLWithString:LOGIN_CHECKER_URL];
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST"];
 
     if (secureRequest) {
         [self executeRequest:secureRequest];

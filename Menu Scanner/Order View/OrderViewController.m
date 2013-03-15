@@ -14,6 +14,7 @@
 #import "ProductInfoCell.h"
 #import "ProductInfoHeader.h"
 #import "StringFormatter.h"
+#import "MenuScannerConstants.h"
 
 @interface OrderViewController ()
 @property (strong, nonatomic) Order *currentOrder;
@@ -33,7 +34,7 @@
 - (void)viewDidLoad
 {
     UIBarButtonItem *showCamera = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCamera:)];
-    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithTitle:@"Neues Produkt" style:UIBarButtonItemStyleBordered target:self action:@selector(addNewItem:)];
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithTitle:NAV_BTN_REGISTER_NEW_PRODUCT style:UIBarButtonItemStyleBordered target:self action:@selector(addNewItem:)];
     
     self.navigationItem.rightBarButtonItems = @[showCamera, addItem];
     
@@ -144,13 +145,13 @@
     {
         NSNumber *orderCosts = currentOrder.totalCosts;
         if ([orderCosts longValue] == 0) {
-            [headerView.headerTitle setText:@"Die Bestellung ist leer"];
+            [headerView.headerTitle setText:EMPTY_ORDER_HEADER];
         }
         else
         {
             NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
             [priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-            [headerView.headerTitle setText:[@"Gesamt: " stringByAppendingString:[priceFormatter stringFromNumber:orderCosts]]];
+            [headerView.headerTitle setText:[ORDER_COSTS_PRE_CLAUSE stringByAppendingString:[priceFormatter stringFromNumber:orderCosts]]];
         }
         
         [headerView.headerTitle setTextColor:[UIColor darkGrayColor]];
@@ -170,7 +171,7 @@
 {
     currentOrder = order;
     
-    [self.navigationItem setTitle:[NSString stringWithFormat:@"Bestellung vom %@", [[StringFormatter dateFormatter] stringFromDate:currentOrder.timestamp]]];
+    [self.navigationItem setTitle:[NSString stringWithFormat:@"%@%@", ORDER_DATE_PRE_CLAUSE, [[StringFormatter dateFormatter] stringFromDate:currentOrder.timestamp]]];
     
     [self.collectionView reloadData];
 }

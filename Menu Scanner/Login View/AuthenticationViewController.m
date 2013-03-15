@@ -8,6 +8,7 @@
 
 #import "AuthenticationViewController.h"
 #import "SecurityManager.h"
+#import "MenuScannerConstants.h"
 
 @interface AuthenticationViewController ()
 @property (strong, nonatomic) UITextField *loginId;
@@ -44,7 +45,7 @@
     
     if (indexPath.row == 0) {
         loginId = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, 280, 21)];
-        loginId .placeholder = @"Login Name";
+        loginId .placeholder = PLACEHOLDER_LOGIN;
         loginId.text = @"";
         loginId .autocorrectionType = UITextAutocorrectionTypeNo;
         [loginId setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -55,7 +56,7 @@
     }
     if (indexPath.row == 1) {
         password = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, 280, 21)];
-        password.placeholder = @"Passwort";
+        password.placeholder = PLACEHOLDER_PASSWORD;
         password.text = @"";
         password.secureTextEntry = YES;
         password.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -120,8 +121,8 @@
     
     if (!valid)
     {
-        NSString *msg = @"Das von dir eingegebene Passwort stimmt nicht. Bitte versuche es noch einmal.";
-        [self presentInfo:msg withTitle:@"Fehler"];
+        NSString *msg = ALRT_INFO_PASSWORD_AUTHENTICATION_FAILURE;
+        [self presentInfo:msg withTitle:ALRT_TITLE_ERROR];
     }
     else
     {
@@ -130,8 +131,8 @@
             [self presentOrderView];
         }
         else {
-            NSString *msg = @"Fehler beim Abspeichern des Passworts.";
-            [self presentInfo:msg withTitle:@"Achtung!"];
+            NSString *msg = ALRT_INFO_PASSWORD_STORAGE_FAILURE;
+            [self presentInfo:msg withTitle:ALRT_TITLE_ERROR];
         }
     }
 }
@@ -147,11 +148,11 @@
 {
     if (doAnimate) {
         [activityIndicator startAnimating];
-        [loginButton setTitle:@"Anmeldung erfolgt …" forState:UIControlStateNormal];
+        [loginButton setTitle:LOGIN_STATE_RUNNING forState:UIControlStateNormal];
     }
     else {
         [activityIndicator stopAnimating];
-        [loginButton setTitle:@"Anmelden" forState:UIControlStateNormal];
+        [loginButton setTitle:LOGIN_STATE_WAITING forState:UIControlStateNormal];
     }
     [loginId setUserInteractionEnabled:!doAnimate];
     [password setUserInteractionEnabled:!doAnimate];
@@ -162,7 +163,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:infoTitle
                                                     message:infoText
                                                    delegate:nil
-                                          cancelButtonTitle:@"OK"
+                                          cancelButtonTitle:ALRT_BTN_ACCEPT
                                           otherButtonTitles:nil];
     [alert show];
 }

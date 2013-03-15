@@ -8,6 +8,7 @@
 
 #import "SecurityManager.h"
 #import <CommonCrypto/CommonHMAC.h>
+#import "MenuScannerConstants.h"
 
 @implementation SecurityManager
 
@@ -38,7 +39,7 @@
 + (BOOL)storeUserName:(NSString *)name
 {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:name forKey:@"user_name"];
+    [prefs setObject:name forKey:KEYCHAIN_KEY];
     [prefs synchronize];
     return YES;
 }
@@ -48,7 +49,7 @@
 + (NSString *)loadUserName
 {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    return [prefs stringForKey:@"user_name"];
+    return [prefs stringForKey:KEYCHAIN_KEY];
 }
 
 #pragma mark - User password store

@@ -7,6 +7,7 @@
 //
 
 #import "ReaderViewController.h"
+#import "MenuScannerConstants.h"
 
 @implementation ReaderViewController
 @synthesize reader;
@@ -23,7 +24,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [reader start];    
-    [self.navigationItem setTitle:@"QR Scan"];
+    [self.navigationItem setTitle:READER_TITLE];
 }
 
 - (void) viewWillDisappear: (BOOL) animated

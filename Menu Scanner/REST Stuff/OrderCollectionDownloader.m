@@ -9,6 +9,7 @@
 #import "OrderCollectionDownloader.h"
 #import "OrderRef.h"
 #import "SecurityManager.h"
+#import "MenuScannerConstants.h"
 
 NSString const *ORDER_ID    = @"id";
 NSString const *ORDER_HASH  = @"hash";
@@ -20,8 +21,8 @@ NSString const *ORDER_TIME  = @"orderTime";
 
 - (void)startDownload
 {
-    NSURL *url = [NSURL URLWithString:@"http://api.codingduck.de/orders/"];
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url];
+    NSURL *url = [NSURL URLWithString:ORDER_COLLECTION_DOWNLOADER_URL];
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST"];
     if (secureRequest) {
         [self executeRequest:secureRequest];
     }
@@ -33,11 +34,11 @@ NSString const *ORDER_TIME  = @"orderTime";
     
     for (NSDictionary *order in json) {
         
-        NSString *timestamp = [order objectForKey:ORDER_TIME];
+        NSString *timestamp = [order objectForKey:ORDER_COLLECTION_DOWNLOADER_TIME];
         
         OrderRef *or = [[OrderRef alloc]
-                        initWithHash:[order objectForKey:ORDER_HASH]
-                        id:[order objectForKey:ORDER_ID]
+                        initWithHash:[order objectForKey:ORDER_COLLECTION_DOWNLOADER_HASH]
+                        id:[order objectForKey:ORDER_COLLECTION_DOWNLOADER_ID]
                         time:[NSDate dateWithTimeIntervalSince1970:[timestamp floatValue]]
                         ];
         [orderRefs addObject:or];

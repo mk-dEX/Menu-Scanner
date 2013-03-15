@@ -9,6 +9,7 @@
 #import "ItemViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "StringFormatter.h"
+#import "MenuScannerConstants.h"
 
 @interface ItemViewController ()
 @property (strong, nonatomic) UIPopoverController *imagePickerPopover;
@@ -52,8 +53,8 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else {
-        NSString *msg = @"Einige Felder sind nicht korrekt ausgefüllt.";
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warnung" message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        NSString *msg = ALRT_INFO_TEXTFIELD_NOT_FILLED;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ALRT_TITLE_WARNING message:msg delegate:nil cancelButtonTitle:ALRT_BTN_ACCEPT otherButtonTitles:nil];
         return [alert show];
     }
 }
@@ -152,8 +153,8 @@
         imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     }
     else {
-        NSString *msg = @"Die Funktion ist zurzeit leider nicht verfügbar.";
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Fehler" message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        NSString *msg = ALRT_INFO_TEXTFIELD_NOT_FILLED;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ALRT_TITLE_ERROR message:msg delegate:nil cancelButtonTitle:ALRT_BTN_ACCEPT otherButtonTitles:nil];
         return [alert show];
     }
     

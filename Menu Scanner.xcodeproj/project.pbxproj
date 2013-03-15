@@ -16,6 +16,7 @@
 		493C7B7A16EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 493C7B7916EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m */; };
 		493C7B7D16EDCFCE000ADBF3 /* SecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */; };
 		4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4970637116EE530800AC2737 /* SecureRESTConnection.m */; };
+		49837E2216F09B1300F88B39 /* OrderUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 49837E2116F09B1300F88B39 /* OrderUpdater.m */; };
 		4983DCEA16EA98000038956E /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 4983DCE916EA98000038956E /* check.png */; };
 		49A2641916E791A1004943C8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641816E791A1004943C8 /* UIKit.framework */; };
 		49A2641B16E791A1004943C8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A2641A16E791A1004943C8 /* Foundation.framework */; };
@@ -69,6 +70,8 @@
 		493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityManager.m; sourceTree = "<group>"; };
 		4970637016EE530800AC2737 /* SecureRESTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureRESTConnection.h; sourceTree = "<group>"; };
 		4970637116EE530800AC2737 /* SecureRESTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureRESTConnection.m; sourceTree = "<group>"; };
+		49837E2016F09B1300F88B39 /* OrderUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderUpdater.h; sourceTree = "<group>"; };
+		49837E2116F09B1300F88B39 /* OrderUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderUpdater.m; sourceTree = "<group>"; };
 		4983DCE916EA98000038956E /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		49A2641516E791A1004943C8 /* Menu Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Menu Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49A2641816E791A1004943C8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -150,6 +153,7 @@
 		49A264B716E79320004943C8 /* zbar-samples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-samples.png"; sourceTree = "<group>"; };
 		49A264BF16E7B13D004943C8 /* separator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator.png; sourceTree = "<group>"; };
 		49A264C016E7B13D004943C8 /* vader.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = vader.jpg; sourceTree = "<group>"; };
+		49B9B2F216F102E600D5C2DA /* MenuScannerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScannerConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +267,7 @@
 				49A2645C16E792DE004943C8 /* StringFormatter.m */,
 				493C7B7B16EDCFCE000ADBF3 /* SecurityManager.h */,
 				493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */,
+				49B9B2F216F102E600D5C2DA /* MenuScannerConstants.h */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -338,6 +343,8 @@
 		49A2647D16E792DE004943C8 /* REST Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				49837E2016F09B1300F88B39 /* OrderUpdater.h */,
+				49837E2116F09B1300F88B39 /* OrderUpdater.m */,
 				49A2647E16E792DE004943C8 /* LoginChecker.h */,
 				49A2647F16E792DE004943C8 /* LoginChecker.m */,
 				49A2648016E792DE004943C8 /* OrderCollectionDownloader.h */,
@@ -514,6 +521,7 @@
 				493C7B7A16EDBFD1000ADBF3 /* ImagePickerOptionsViewController.m in Sources */,
 				493C7B7D16EDCFCE000ADBF3 /* SecurityManager.m in Sources */,
 				4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */,
+				49837E2216F09B1300F88B39 /* OrderUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
