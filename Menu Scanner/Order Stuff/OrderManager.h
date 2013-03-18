@@ -23,6 +23,7 @@
 + (OrderManager *)getInstance;
 
 - (void)addOrder:(Order *)newOrder;
+- (void)removeOrder:(Order *)oldOrder;
 - (void)updateOrders;
 - (NSArray *)orders;
 - (Order *)orderAtIndex:(NSUInteger)index;
