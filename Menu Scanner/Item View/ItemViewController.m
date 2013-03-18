@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "StringFormatter.h"
 #import "MenuScannerConstants.h"
+#import "CategoryPickerViewController.h"
+#import "Category.h"
 
 @interface ItemViewController ()
 @property (strong, nonatomic) UIPopoverController *imagePickerPopover;
@@ -137,6 +139,9 @@
 - (BOOL)priceIsValid
 {
     NSNumber *testPrice = [[StringFormatter numberFormatter] numberFromString:self.price.text];
+    if (testPrice) {
+        [self.price setText:[[StringFormatter currencyFormatter] stringFromNumber:testPrice]];
+    }
     return testPrice != nil;
 }
 
@@ -155,15 +160,15 @@
     [field setBackgroundColor:newColor];
 }
 
-#pragma mark - Image Picker Delegates
+#pragma mark - Image picker delegates
 
-- (IBAction)unwindFromViewControllerUsingLibrary:(UIStoryboardSegue *)segue
+- (IBAction)unwindFromImageOptionPickerUsingLibrary:(UIStoryboardSegue *)segue
 {
     imagePickerOptionsPopover = nil;
     [self presentImagePickerType:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 
-- (IBAction)unwindFromViewControllerUsingCamera:(UIStoryboardSegue *)segue
+- (IBAction)unwindFromImageOptionPickerUsingCamera:(UIStoryboardSegue *)segue
 {
     imagePickerOptionsPopover = nil;
     [self presentImagePickerType:UIImagePickerControllerSourceTypeCamera];
@@ -191,7 +196,6 @@
     }
 }
 
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
@@ -204,6 +208,15 @@
     else if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
         [imagePickerPopover dismissPopoverAnimated:YES];
     }
+}
+
+#pragma mark - Category picker delegates
+
+- (IBAction)unwindFromCategoryPicker:(UIStoryboardSegue *)segue
+{
+    Category *selectedCategory = [((CategoryPickerViewController *)segue.sourceViewController) selectedCategory];
+    [category setText:selectedCategory.name];
+    [self textFieldIsValid:category];
 }
 
 @end
