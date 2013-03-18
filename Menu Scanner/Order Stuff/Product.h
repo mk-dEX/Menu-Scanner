@@ -15,6 +15,4 @@
 @property (strong, nonatomic) NSNumber *price;
 @property (strong, nonatomic) NSNumber *count;
 @property (strong, nonatomic) NSString *imageURL;
-
-- (id) initWithName:(NSString *)productName price:(NSNumber *)productPrice count:(NSNumber *)productCount;
 @end

@@ -15,15 +15,4 @@
 @synthesize price;
 @synthesize count;
 @synthesize imageURL;
-
-- (id) initWithName:(NSString *)productName price:(NSNumber *)productPrice count:(NSNumber *)productCount
-{
-    self = [super init];
-    if (self) {
-        self.name = productName;
-        self.price = productPrice;
-        self.count = productCount;
-    }
-    return self;
-}
 @end
