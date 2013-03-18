@@ -8,6 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    HttpCodeSuccessful,
+    HttpCodeNotAuthorized,
+    HttpCodeServiceNotAvailable,
+    HttpCodeUnknown,
+    NoCode
+} HttpCode;
+
+@class RESTConnection;
+@protocol RESTConnectionDelegate
+- (void)connection:(RESTConnection *)connection didFinishWithCode:(HttpCode)code;
+- (void)connection:(RESTConnection *)connection didFailWithError:(NSError *)error;
+@end
+
 @interface RESTConnection : NSObject <NSURLConnectionDelegate>
-- (Boolean) executeRequest:(NSURLRequest *)request;
+@property (weak, nonatomic) id<RESTConnectionDelegate>httpDelegate;
+- (BOOL)executeRequest:(NSURLRequest *)request;
 @end

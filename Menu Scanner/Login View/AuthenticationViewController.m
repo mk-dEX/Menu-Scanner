@@ -109,9 +109,9 @@
     
     NSString *name = loginId.text;
     NSString *key = password.text;
-        
+    
     LoginChecker *loginChecker = [LoginChecker new];
-    loginChecker.delegate = self;
+    loginChecker.httpDelegate = self;
     [loginChecker authenticateWithPassword:key forName:name];
 }
 
@@ -157,6 +157,20 @@
     [loginId setUserInteractionEnabled:!doAnimate];
     [password setUserInteractionEnabled:!doAnimate];
 }
+
+#pragma mark - Authentication HTTP result handling
+
+- (void)connection:(RESTConnection *)connection didFinishWithCode:(HttpCode)code
+{
+    [self loginIsValid:(code == HttpCodeSuccessful)];
+}
+
+- (void)connection:(RESTConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"Error Login Authentication");
+}
+
+#pragma mark - Authentication UI feedback
 
 - (void)presentInfo:(NSString *)infoText withTitle:(NSString *)infoTitle
 {

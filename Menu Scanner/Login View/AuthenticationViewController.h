@@ -9,7 +9,7 @@
 #import "ECSlidingViewController.h"
 #import "LoginChecker.h"
 
-@interface AuthenticationViewController : ECSlidingViewController <UITableViewDataSource, UITextFieldDelegate, LoginCheckerDelegate>
+@interface AuthenticationViewController : ECSlidingViewController <UITableViewDataSource, UITextFieldDelegate, RESTConnectionDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIButton *loginButton;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;

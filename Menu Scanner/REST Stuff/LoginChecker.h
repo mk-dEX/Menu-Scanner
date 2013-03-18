@@ -8,13 +8,6 @@
 
 #import "SecureRESTConnection.h"
 
-@class LoginChecker;
-@protocol LoginCheckerDelegate
-- (void)loginIsValid:(BOOL)valid;
-@end
-
 @interface LoginChecker : SecureRESTConnection
-@property (weak) id<LoginCheckerDelegate> delegate;
-- (void)authenticate;
-- (void)authenticateWithPassword:(NSString *)password forName:(NSString *)user;
+- (BOOL)authenticateWithPassword:(NSString *)password forName:(NSString *)user;
 @end

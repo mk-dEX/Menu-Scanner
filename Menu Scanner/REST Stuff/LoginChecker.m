@@ -11,48 +11,12 @@
 #import "MenuScannerConstants.h"
 
 @implementation LoginChecker
-@synthesize delegate;
 
-- (void)authenticateWithPassword:(NSString *)password forName:(NSString *)user
+- (BOOL)authenticateWithPassword:(NSString *)password forName:(NSString *)user
 {
     NSURL *url = [NSURL URLWithString:LOGIN_CHECKER_URL];
     NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST" withName:user andPassword:password];
-    
-    if (secureRequest) {
-        [self executeRequest:secureRequest];
-    }
-    else {
-        [self notifySuccess:NO];
-    }
-}
-
-- (void)authenticate
-{
-    NSURL *url = [NSURL URLWithString:LOGIN_CHECKER_URL];
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST"];
-
-    if (secureRequest) {
-        [self executeRequest:secureRequest];
-    }
-    else {
-        [self notifySuccess:NO];
-    }
-}
-
-- (void)notifySuccess:(BOOL)isValid
-{
-    if (delegate) {
-        [delegate loginIsValid:isValid];
-    }
-}
-
-- (void)processData:(id)json
-{
-    NSDictionary *error = [(NSDictionary *)json objectForKey:@"error"];
-    NSNumber *code = (NSNumber *)[error objectForKey:@"code"];
-    
-    int value = [code intValue];
-    [self notifySuccess:(value == 200)];
+    return secureRequest && [self executeRequest:secureRequest];
 }
 
 @end
