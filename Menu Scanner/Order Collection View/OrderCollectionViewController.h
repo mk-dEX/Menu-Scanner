@@ -10,6 +10,7 @@
 #import "OrderCollectionDownloader.h"
 #import "ProductInfoDownloader.h"
 #import "OrderManager.h"
+#import "OrderUpdater.h"
 
 @class OrderCollectionViewController;
 @protocol OrderCollectionViewControllerDelegate

@@ -11,6 +11,7 @@
 #import "OrderRef.h"
 #import "OrderInfoCell.h"
 #import "StringFormatter.h"
+#import "MenuScannerConstants.h"
 
 
 @interface OrderCollectionViewController ()
@@ -91,33 +92,28 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     int numberOfItems = [[orderManager orders] count];
-    NSString *info = numberOfItems == 1 ? @"Bestellung" : @"Bestellungen";
+    NSString *info = numberOfItems == 1 ? ORDER_COUNT_ONE : ORDER_COUNT_MANY;
     
     return [NSString stringWithFormat:@"%d %@", numberOfItems, info];
 }
 
-/*
-// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
+        OrderInfoCell *removedCell = (OrderInfoCell *)[tableView cellForRowAtIndexPath:indexPath];
+        Order *removedOrder = removedCell.order;
+        [orderManager removeOrder:removedOrder];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        
+        OrderUpdater *orderUpdater = [OrderUpdater new];
+        [orderUpdater removeOrderWithId:removedOrder.orderId];
+    }     
 }
-*/
 
 #pragma mark - Table view delegate
 
@@ -125,7 +121,7 @@
 {
     OrderInfoCell *selectedCell = (OrderInfoCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     Order *selectedOrder = selectedCell.order;
-//	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (delegate)
     {
@@ -137,12 +133,10 @@
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
 {
-    if (text.length == 0)
-    {
+    if (text.length == 0) {
         [orderManager resetFilter];
     }
-    else
-    {
+    else {
         [orderManager setFilter:text];
     }
 }
