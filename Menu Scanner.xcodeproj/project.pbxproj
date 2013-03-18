@@ -14,6 +14,10 @@
 		49375F4716E7D72D002CD3E8 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4616E7D72D002CD3E8 /* libiconv.dylib */; };
 		49375F4916E7D734002CD3E8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4816E7D734002CD3E8 /* Security.framework */; };
 		493C7B7D16EDCFCE000ADBF3 /* SecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */; };
+		493E1B4516F773FF002E288F /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4416F773FF002E288F /* Category.m */; };
+		493E1B4816F7746D002E288F /* CategoryPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4716F7746D002E288F /* CategoryPickerViewController.m */; };
+		493E1B4B16F775BE002E288F /* CategoryCollectionDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4A16F775BE002E288F /* CategoryCollectionDownloader.m */; };
+		493E1B4E16F77902002E288F /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4D16F77902002E288F /* CategoryCell.m */; };
 		4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4970637116EE530800AC2737 /* SecureRESTConnection.m */; };
 		49837E2216F09B1300F88B39 /* OrderUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 49837E2116F09B1300F88B39 /* OrderUpdater.m */; };
 		4983DCEA16EA98000038956E /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 4983DCE916EA98000038956E /* check.png */; };
@@ -65,6 +69,14 @@
 		49375F4816E7D734002CD3E8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		493C7B7B16EDCFCE000ADBF3 /* SecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityManager.h; sourceTree = "<group>"; };
 		493C7B7C16EDCFCE000ADBF3 /* SecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecurityManager.m; sourceTree = "<group>"; };
+		493E1B4316F773FF002E288F /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
+		493E1B4416F773FF002E288F /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
+		493E1B4616F7746D002E288F /* CategoryPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryPickerViewController.h; sourceTree = "<group>"; };
+		493E1B4716F7746D002E288F /* CategoryPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryPickerViewController.m; sourceTree = "<group>"; };
+		493E1B4916F775BE002E288F /* CategoryCollectionDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCollectionDownloader.h; sourceTree = "<group>"; };
+		493E1B4A16F775BE002E288F /* CategoryCollectionDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCollectionDownloader.m; sourceTree = "<group>"; };
+		493E1B4C16F77902002E288F /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
+		493E1B4D16F77902002E288F /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		4970637016EE530800AC2737 /* SecureRESTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureRESTConnection.h; sourceTree = "<group>"; };
 		4970637116EE530800AC2737 /* SecureRESTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureRESTConnection.m; sourceTree = "<group>"; };
 		49837E2016F09B1300F88B39 /* OrderUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderUpdater.h; sourceTree = "<group>"; };
@@ -274,6 +286,10 @@
 			children = (
 				49A2645E16E792DE004943C8 /* ItemViewController.h */,
 				49A2645F16E792DE004943C8 /* ItemViewController.m */,
+				493E1B4616F7746D002E288F /* CategoryPickerViewController.h */,
+				493E1B4716F7746D002E288F /* CategoryPickerViewController.m */,
+				493E1B4C16F77902002E288F /* CategoryCell.h */,
+				493E1B4D16F77902002E288F /* CategoryCell.m */,
 			);
 			path = "Item View";
 			sourceTree = "<group>";
@@ -309,6 +325,8 @@
 				49A2647016E792DE004943C8 /* OrderRef.m */,
 				49A2647116E792DE004943C8 /* Product.h */,
 				49A2647216E792DE004943C8 /* Product.m */,
+				493E1B4316F773FF002E288F /* Category.h */,
+				493E1B4416F773FF002E288F /* Category.m */,
 			);
 			path = "Order Stuff";
 			sourceTree = "<group>";
@@ -338,6 +356,8 @@
 		49A2647D16E792DE004943C8 /* REST Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				493E1B4916F775BE002E288F /* CategoryCollectionDownloader.h */,
+				493E1B4A16F775BE002E288F /* CategoryCollectionDownloader.m */,
 				49837E2016F09B1300F88B39 /* OrderUpdater.h */,
 				49837E2116F09B1300F88B39 /* OrderUpdater.m */,
 				49A2647E16E792DE004943C8 /* LoginChecker.h */,
@@ -516,6 +536,10 @@
 				493C7B7D16EDCFCE000ADBF3 /* SecurityManager.m in Sources */,
 				4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */,
 				49837E2216F09B1300F88B39 /* OrderUpdater.m in Sources */,
+				493E1B4516F773FF002E288F /* Category.m in Sources */,
+				493E1B4816F7746D002E288F /* CategoryPickerViewController.m in Sources */,
+				493E1B4B16F775BE002E288F /* CategoryCollectionDownloader.m in Sources */,
+				493E1B4E16F77902002E288F /* CategoryCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
