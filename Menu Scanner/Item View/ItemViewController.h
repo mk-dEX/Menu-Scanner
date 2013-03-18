@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ImagePickerOptionsViewController.h"
 
-@interface ItemViewController : UIViewController <UITextFieldDelegate, ImagePickerOptionsViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ItemViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *name;
 @property (strong, nonatomic) IBOutlet UITextField *category;
@@ -25,5 +24,4 @@
 
 - (IBAction)closeForm:(id)sender;
 - (IBAction)closeFormAndSaveItem:(id)sender;
-
 @end

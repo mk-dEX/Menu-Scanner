@@ -13,6 +13,7 @@
 
 @interface ItemViewController ()
 @property (strong, nonatomic) UIPopoverController *imagePickerPopover;
+@property (strong, nonatomic) UIPopoverController *imagePickerOptionsPopover;
 @end
 
 @implementation ItemViewController
@@ -28,6 +29,7 @@
 @synthesize uploadIndicator;
 
 @synthesize imagePickerPopover;
+@synthesize imagePickerOptionsPopover;
 
 - (void)viewDidLoad
 {
@@ -62,8 +64,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"ImagePickerOptions"]) {
-        ImagePickerOptionsViewController *optionsViewController = (ImagePickerOptionsViewController *)segue.destinationViewController;
-        optionsViewController.delegate = self;
+        imagePickerOptionsPopover = [(UIStoryboardPopoverSegue *)segue popoverController];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    if (imagePickerPopover.isPopoverVisible) {
+        [self.imagePickerPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    }
+    if (imagePickerOptionsPopover && imagePickerOptionsPopover.isPopoverVisible) {
+        [self.imagePickerOptionsPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
     }
 }
 
@@ -78,6 +89,8 @@
     [textField resignFirstResponder];
     return YES;
 }
+
+#pragma mark - Input validation
 
 - (BOOL)allFieldsValid
 {
@@ -127,6 +140,8 @@
     return testPrice != nil;
 }
 
+#pragma mark - Input validation UI feedback
+
 - (void)toggleImage:(UIImageView *)image correct:(BOOL)isCorrect
 {
     float newAlpha = isCorrect ? 1.0 : 0.3;
@@ -142,36 +157,53 @@
 
 #pragma mark - Image Picker Delegates
 
-- (void)optionPickerController:(ImagePickerOptionsViewController *)picker didSelectOption:(ImagePickerOption)option
-{        
+- (IBAction)unwindFromViewControllerUsingLibrary:(UIStoryboardSegue *)segue
+{
+    imagePickerOptionsPopover = nil;
+    [self presentImagePickerType:UIImagePickerControllerSourceTypePhotoLibrary];
+}
+
+- (IBAction)unwindFromViewControllerUsingCamera:(UIStoryboardSegue *)segue
+{
+    imagePickerOptionsPopover = nil;
+    [self presentImagePickerType:UIImagePickerControllerSourceTypeCamera];
+}
+
+- (void)presentImagePickerType:(UIImagePickerControllerSourceType)sourceType
+{
     UIImagePickerController *imagePicker = [UIImagePickerController new];
-    
-    if (option == ImagePickerLibrary && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    else if (option == ImagePickerCamera && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    else {
-        NSString *msg = ALRT_INFO_TEXTFIELD_NOT_FILLED;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ALRT_TITLE_ERROR message:msg delegate:nil cancelButtonTitle:ALRT_BTN_ACCEPT otherButtonTitles:nil];
-        return [alert show];
-    }
-    
     imagePicker.allowsEditing = YES;
     imagePicker.delegate = self;
     
-    self.imagePickerPopover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-    [self.imagePickerPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    if (sourceType == UIImagePickerControllerSourceTypePhotoLibrary && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        imagePicker.sourceType = sourceType;
+        self.imagePickerPopover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+        [self.imagePickerPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    }
+    else if (sourceType == UIImagePickerControllerSourceTypeCamera && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        imagePicker.sourceType = sourceType;
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    }
+    else {
+        NSString *msg = ALRT_INFO_CAM_NOT_AVAILABLE;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:ALRT_TITLE_ERROR message:msg delegate:nil cancelButtonTitle:ALRT_BTN_ACCEPT otherButtonTitles:nil];
+        return [alert show];
+    }
 }
+
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     [self.picture setImage:selectedImage];
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    UIImageWriteToSavedPhotosAlbum(selectedImage, nil, nil, nil);
-    [self.imagePickerPopover dismissPopoverAnimated:YES];
+    
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImageWriteToSavedPhotosAlbum(selectedImage, nil, nil, nil);
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    }
+    else if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
+        [imagePickerPopover dismissPopoverAnimated:YES];
+    }
 }
 
 @end
