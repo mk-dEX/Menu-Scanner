@@ -12,10 +12,15 @@
 #import "MenuScannerConstants.h"
 #import "CategoryPickerViewController.h"
 #import "Category.h"
+#import "ProductPickerViewController.h"
+#import "Product.h"
 
 @interface ItemViewController ()
 @property (strong, nonatomic) UIPopoverController *imagePickerPopover;
 @property (strong, nonatomic) UIPopoverController *imagePickerOptionsPopover;
+
+@property (strong, nonatomic) Category *selectedCategory;
+@property (strong, nonatomic) Product *selectedProduct;
 @end
 
 @implementation ItemViewController
@@ -32,6 +37,8 @@
 
 @synthesize imagePickerPopover;
 @synthesize imagePickerOptionsPopover;
+@synthesize selectedCategory;
+@synthesize selectedProduct;
 
 - (void)viewDidLoad
 {
@@ -67,6 +74,12 @@
 {
     if ([[segue identifier] isEqualToString:@"ImagePickerOptions"]) {
         imagePickerOptionsPopover = [(UIStoryboardPopoverSegue *)segue popoverController];
+    }
+    if ([[segue identifier] isEqualToString:@"Names"]) {
+        if (selectedProduct) {
+            ProductPickerViewController *productPicker = segue.destinationViewController;
+            productPicker.categoryId = selectedProduct.categoryId;
+        }
     }
 }
 
@@ -214,9 +227,33 @@
 
 - (IBAction)unwindFromCategoryPicker:(UIStoryboardSegue *)segue
 {
-    Category *selectedCategory = [((CategoryPickerViewController *)segue.sourceViewController) selectedCategory];
+    self.selectedCategory = [((CategoryPickerViewController *)segue.sourceViewController) selectedCategory];
     [category setText:selectedCategory.name];
     [self textFieldIsValid:category];
+}
+
+#pragma mark - Product picker delegates
+
+- (IBAction)unwindFromProductPicker:(UIStoryboardSegue *)segue
+{
+    self.selectedProduct = [((ProductPickerViewController *)segue.sourceViewController) selectedProduct];
+    [name setText:selectedProduct.name];
+    [self textFieldIsValid:name];
+    
+    if ([category.text isEqualToString:@""]) {
+        [category setText:selectedProduct.category];
+        [self textFieldIsValid:category];
+        self.selectedCategory = nil;
+    }
+    
+    if ([price.text isEqualToString:@""]) {
+        [price setText:[[selectedProduct.price stringValue] stringByReplacingOccurrencesOfString:@"." withString:@","]];
+        [self textFieldIsValid:price];
+    }
+    
+    if ([descr.text isEqualToString:@""]) {
+        [descr setText:selectedProduct.descr];
+    }
 }
 
 @end

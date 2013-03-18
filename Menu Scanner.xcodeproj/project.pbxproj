@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4909263816F7A59100D4616D /* ProductPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4909263716F7A59100D4616D /* ProductPickerViewController.m */; };
+		4909263B16F7A6A900D4616D /* ProductCollectionDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4909263A16F7A6A900D4616D /* ProductCollectionDownloader.m */; };
 		49375F3F16E7D6F5002CD3E8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F3E16E7D6F5002CD3E8 /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		49375F4116E7D703002CD3E8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4016E7D703002CD3E8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		49375F4316E7D70E002CD3E8 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49375F4216E7D70E002CD3E8 /* CoreVideo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -17,7 +19,7 @@
 		493E1B4516F773FF002E288F /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4416F773FF002E288F /* Category.m */; };
 		493E1B4816F7746D002E288F /* CategoryPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4716F7746D002E288F /* CategoryPickerViewController.m */; };
 		493E1B4B16F775BE002E288F /* CategoryCollectionDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4A16F775BE002E288F /* CategoryCollectionDownloader.m */; };
-		493E1B4E16F77902002E288F /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4D16F77902002E288F /* CategoryCell.m */; };
+		493E1B4E16F77902002E288F /* NewProductInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 493E1B4D16F77902002E288F /* NewProductInfoCell.m */; };
 		4970637216EE530800AC2737 /* SecureRESTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4970637116EE530800AC2737 /* SecureRESTConnection.m */; };
 		49837E2216F09B1300F88B39 /* OrderUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 49837E2116F09B1300F88B39 /* OrderUpdater.m */; };
 		4983DCEA16EA98000038956E /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 4983DCE916EA98000038956E /* check.png */; };
@@ -61,6 +63,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4909263616F7A59100D4616D /* ProductPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPickerViewController.h; sourceTree = "<group>"; };
+		4909263716F7A59100D4616D /* ProductPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPickerViewController.m; sourceTree = "<group>"; };
+		4909263916F7A6A800D4616D /* ProductCollectionDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCollectionDownloader.h; sourceTree = "<group>"; };
+		4909263A16F7A6A900D4616D /* ProductCollectionDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCollectionDownloader.m; sourceTree = "<group>"; };
 		49375F3E16E7D6F5002CD3E8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		49375F4016E7D703002CD3E8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		49375F4216E7D70E002CD3E8 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -75,8 +81,8 @@
 		493E1B4716F7746D002E288F /* CategoryPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryPickerViewController.m; sourceTree = "<group>"; };
 		493E1B4916F775BE002E288F /* CategoryCollectionDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCollectionDownloader.h; sourceTree = "<group>"; };
 		493E1B4A16F775BE002E288F /* CategoryCollectionDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCollectionDownloader.m; sourceTree = "<group>"; };
-		493E1B4C16F77902002E288F /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
-		493E1B4D16F77902002E288F /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
+		493E1B4C16F77902002E288F /* NewProductInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProductInfoCell.h; sourceTree = "<group>"; };
+		493E1B4D16F77902002E288F /* NewProductInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewProductInfoCell.m; sourceTree = "<group>"; };
 		4970637016EE530800AC2737 /* SecureRESTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureRESTConnection.h; sourceTree = "<group>"; };
 		4970637116EE530800AC2737 /* SecureRESTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureRESTConnection.m; sourceTree = "<group>"; };
 		49837E2016F09B1300F88B39 /* OrderUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderUpdater.h; sourceTree = "<group>"; };
@@ -288,8 +294,10 @@
 				49A2645F16E792DE004943C8 /* ItemViewController.m */,
 				493E1B4616F7746D002E288F /* CategoryPickerViewController.h */,
 				493E1B4716F7746D002E288F /* CategoryPickerViewController.m */,
-				493E1B4C16F77902002E288F /* CategoryCell.h */,
-				493E1B4D16F77902002E288F /* CategoryCell.m */,
+				4909263616F7A59100D4616D /* ProductPickerViewController.h */,
+				4909263716F7A59100D4616D /* ProductPickerViewController.m */,
+				493E1B4C16F77902002E288F /* NewProductInfoCell.h */,
+				493E1B4D16F77902002E288F /* NewProductInfoCell.m */,
 			);
 			path = "Item View";
 			sourceTree = "<group>";
@@ -356,6 +364,8 @@
 		49A2647D16E792DE004943C8 /* REST Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				4909263916F7A6A800D4616D /* ProductCollectionDownloader.h */,
+				4909263A16F7A6A900D4616D /* ProductCollectionDownloader.m */,
 				493E1B4916F775BE002E288F /* CategoryCollectionDownloader.h */,
 				493E1B4A16F775BE002E288F /* CategoryCollectionDownloader.m */,
 				49837E2016F09B1300F88B39 /* OrderUpdater.h */,
@@ -539,7 +549,9 @@
 				493E1B4516F773FF002E288F /* Category.m in Sources */,
 				493E1B4816F7746D002E288F /* CategoryPickerViewController.m in Sources */,
 				493E1B4B16F775BE002E288F /* CategoryCollectionDownloader.m in Sources */,
-				493E1B4E16F77902002E288F /* CategoryCell.m in Sources */,
+				493E1B4E16F77902002E288F /* NewProductInfoCell.m in Sources */,
+				4909263816F7A59100D4616D /* ProductPickerViewController.m in Sources */,
+				4909263B16F7A6A900D4616D /* ProductCollectionDownloader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

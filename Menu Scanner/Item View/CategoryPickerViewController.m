@@ -55,13 +55,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"CategoryCell";
-    CategoryCell *cell = (CategoryCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"NewProductCell";
+    NewProductInfoCell *cell = (NewProductInfoCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     Category *category = [availableCategories objectAtIndex:indexPath.row];
     
     [cell.name setTitle:category.name forState:UIControlStateNormal];
-    cell.category = category;
+    cell.productProperty = category;
     cell.delegate = self;
     
     return cell;
@@ -71,14 +71,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self returnWithCategory:[((CategoryCell *)[tableView cellForRowAtIndexPath:indexPath]) category]];
+    [self returnWithCategory:(Category *)[((NewProductInfoCell *)[tableView cellForRowAtIndexPath:indexPath]) productProperty]];
 }
 
 #pragma mark - Category cell delegate
 
-- (void)cell:(CategoryCell *)cell didSelectCategory:(Category *)category
+- (void)cell:(NewProductInfoCell *)cell didSelect:(id)property;
 {
-    [self returnWithCategory:category];
+    [self returnWithCategory:(Category *)property];
 }
 
 

@@ -6,18 +6,18 @@
 //  Copyright (c) 2013 Marc Kirchmann. All rights reserved.
 //
 
-#import "CategoryCell.h"
+#import "NewProductInfoCell.h"
 
-@implementation CategoryCell
+@implementation NewProductInfoCell
 
 @synthesize delegate;
 @synthesize name;
-@synthesize category;
+@synthesize productProperty;
 
 - (IBAction)didSelectCategory:(id)sender
 {
     if (delegate) {
-        [delegate cell:self didSelectCategory:category];
+        [delegate cell:self didSelect:productProperty];
     }
 }
 @end

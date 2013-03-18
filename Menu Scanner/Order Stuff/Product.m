@@ -9,10 +9,13 @@
 #import "Product.h"
 
 @implementation Product
+@synthesize productId;
 @synthesize name;
 @synthesize descr;
 @synthesize unit;
 @synthesize price;
 @synthesize count;
 @synthesize imageURL;
+@synthesize category;
+@synthesize categoryId;
 @end
