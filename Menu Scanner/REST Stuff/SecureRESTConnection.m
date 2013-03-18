@@ -12,18 +12,6 @@
 
 @implementation SecureRESTConnection
 
-- (NSURLRequest *)secureRequestForUrl:(NSURL *)requestedUrl method:(NSString *)httpMethod
-{
-    NSString *user;
-    NSString *password;
-    
-    if ((user = [self fetchUserName]) == nil || (password = [self fetchPasswordForUser:user]) == nil) {
-        return nil;
-    }
-    
-    return [self secureRequestForUrl:requestedUrl method:httpMethod withName:user andPassword:password];
-}
-
 - (NSURLRequest *)secureRequestForUrl:(NSURL *)requestedUrl method:(NSString *)httpMethod withName:(NSString *)user andPassword:(NSString *)password
 {
     long timestamp = (long)[[NSDate date] timeIntervalSince1970];
@@ -39,16 +27,6 @@
     [request setHTTPMethod:httpMethod];
     
     return request;
-}
-
-- (NSString *)fetchUserName
-{
-    return [SecurityManager loadUserName];
-}
-
-- (NSString *)fetchPasswordForUser:(NSString *)userName
-{
-    return [SecurityManager loadPasswordForUser:userName];
 }
 
 @end
