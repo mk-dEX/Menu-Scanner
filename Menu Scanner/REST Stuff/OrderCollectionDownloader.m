@@ -10,42 +10,56 @@
 #import "OrderRef.h"
 #import "SecurityManager.h"
 #import "MenuScannerConstants.h"
-
-NSString const *ORDER_ID    = @"id";
-NSString const *ORDER_HASH  = @"hash";
-NSString const *ORDER_TIME  = @"orderTime";
+#import "StringFormatter.h"
 
 @implementation OrderCollectionDownloader
 
 @synthesize delegate;
 
-- (void)startDownload
+- (BOOL)startDownload
 {
     NSURL *url = [NSURL URLWithString:ORDER_COLLECTION_DOWNLOADER_URL];
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST"];
-    if (secureRequest) {
-        [self executeRequest:secureRequest];
+    
+    NSString *user;
+    NSString *password;
+    if ((user = [SecurityManager loadUserName]) == nil || (password = [SecurityManager loadPasswordForUser:user]) == nil) {
+        return NO;
     }
+    
+    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST"withName:user andPassword:password];
+    return secureRequest && [self executeRequest:secureRequest];
 }
 
 - (void)processData:(id)json
 {
     NSMutableArray *orderRefs = [NSMutableArray new];
     
-    for (NSDictionary *order in json) {
-        
-        NSString *timestamp = [order objectForKey:ORDER_COLLECTION_DOWNLOADER_TIME];
-        
-        OrderRef *or = [[OrderRef alloc]
-                        initWithHash:[order objectForKey:ORDER_COLLECTION_DOWNLOADER_HASH]
-                        id:[order objectForKey:ORDER_COLLECTION_DOWNLOADER_ID]
-                        time:[NSDate dateWithTimeIntervalSince1970:[timestamp floatValue]]
-                        ];
-        [orderRefs addObject:or];
+    for (NSDictionary *orderReference in json) {
+        OrderRef *scannedOrderReference = [self orderReferenceFromJson:orderReference];
+        if (scannedOrderReference) {
+            [orderRefs addObject:scannedOrderReference];
+        }
     }
     
     if (self.delegate) {   
         [self.delegate download:self didFinishWithOrderCollection:orderRefs];
+    }
+}
+                        
+- (OrderRef *)orderReferenceFromJson:(NSDictionary *)jsonOrderRef
+{
+    OrderRef *orderRef = [OrderRef new];
+    
+    @try {
+        orderRef.orderHash = [jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_HASH];
+        orderRef.orderTime = [NSDate dateWithTimeIntervalSince1970:[[jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_TIME] floatValue]];
+        orderRef.orderId = [[StringFormatter numberFormatter] numberFromString:[jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_ID]];
+    }
+    @catch (NSException *exception) {
+        orderRef = nil;
+    }
+    @finally {
+        return orderRef;
     }
 }
 

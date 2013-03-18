@@ -12,10 +12,11 @@
 
 @class ProductInfoDownloader;
 @protocol ProductInfoDownloaderDelegate
-- (void) download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order;
+- (void)download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order;
+- (void)download:(ProductInfoDownloader *)download didReceiveInvalidData:(id)data;
 @end
 
 @interface ProductInfoDownloader : RESTConnection
 @property (weak) id<ProductInfoDownloaderDelegate> delegate;
-- (void) startDownloadForOrderHash:(NSString *)hash;
+- (BOOL) startDownloadForOrderHash:(NSString *)hash;
 @end

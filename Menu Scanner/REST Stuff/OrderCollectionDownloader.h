@@ -15,5 +15,5 @@
 
 @interface OrderCollectionDownloader : SecureRESTConnection
 @property (weak) id<OrderCollectionDownloaderDelegate> delegate;
-- (void) startDownload;
+- (BOOL) startDownload;
 @end

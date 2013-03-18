@@ -16,71 +16,116 @@
 
 @synthesize delegate;
 
-- (void) startDownloadForOrderHash:(NSString *)hash
+- (BOOL) startDownloadForOrderHash:(NSString *)hash
 {
     NSURL *targetURL = [NSURL URLWithString:[PRODUCT_INFO_DOWNLOADER_URL stringByAppendingString:hash]];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    
-    [self executeRequest:request];
+    return request && [self executeRequest:request];
 }
 
 #pragma mark - JSON Processing
 
 - (void) processData:(id)json
 {
-    NSNumber *totalCosts = @0;
-    NSNumber *orderId;
     NSMutableDictionary *products = [NSMutableDictionary new];
     NSMutableArray *categories = [NSMutableArray new];
     
-    totalCosts = [json objectForKey:PRODUCT_INFO_DOWNLOADER_TOTAL_COSTS];
-    orderId = [json objectForKey:PRODUCT_INFO_DOWNLOADER_ID];
-    [categories addObject:[totalCosts stringValue]];
-    [products setObject:[NSMutableArray new] forKey:[totalCosts stringValue]];
+    for (NSDictionary *product in [self productListFromJson:json])
+    {
+        NSString *scannedCategory;
+        Product *scannedProduct;
+        
+        if ((scannedCategory = [self categoryFromJson:product]) && (scannedProduct = [self productFromJson:product])) {
+            if (![categories containsObject:scannedCategory]) {
+                [categories addObject:scannedCategory];
+                [products setObject:[NSMutableArray new] forKey:scannedCategory];
+            }
+            [[products objectForKey:scannedCategory] addObject:scannedProduct];
+        }        
+    }
     
-    NSString *timestamp = [json objectForKey:PRODUCT_INFO_DOWNLOADER_TIME];
-    NSArray *jsonProducts = [json objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCTS];
+    if (delegate)
+    {
+        Order *scannedOrder = [self orderFromJson:json];
+        if (scannedOrder) {
+            scannedOrder.categories = [@[@"PLACEHOLDER"] arrayByAddingObjectsFromArray:categories];
+            [products setObject:@[] forKey:@"PLACEHOLDER"];
+            scannedOrder.products = products;
+            
+            [self.delegate download:self didFinishWithOrder:scannedOrder];
+        }
+        else {
+            [delegate download:self didReceiveInvalidData:json];
+        }
+    }
+}
+
+- (Order *)orderFromJson:(id)jsonResponse
+{
+    Order *order = [Order new];
+    
+    @try {
+        order.totalCosts = [jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_TOTAL_COSTS];
+        order.orderId = [[StringFormatter numberFormatter] numberFromString:[jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_ID]];
+        order.timestamp = [NSDate dateWithTimeIntervalSince1970:[[jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_TIME] floatValue]];
+    }
+    @catch (NSException *exception) {
+        order = nil;
+    }
+    @finally {
+        return order;
+    }
+}
+
+- (NSArray *)productListFromJson:(id)jsonResponse
+{
+    NSArray *products;
+    @try {
+        products = [jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCTS];
+    }
+    @catch (NSException *exception) {
+        products = @[];
+    }
+    @finally {
+        return products;
+    }
+}
+
+- (NSString *)categoryFromJson:(NSDictionary *)jsonProduct
+{
+    NSString *category;
+    
+    @try {
+        category = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY];
+    }
+    @catch (NSException *exception) {
+        category = nil;
+    }
+    @finally {
+        return category;
+    }
+}
+
+- (Product *)productFromJson:(NSDictionary *)jsonProduct
+{
+    Product *product = [Product new];
     
     NSNumberFormatter *floatFormatter = [StringFormatter numberFormatter];
     [floatFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     
-    NSString *category;
-    for (NSDictionary *product in jsonProducts)
-    {
-        category = [product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY];
-        
-        if (![categories containsObject:category])
-        {
-            [categories addObject:category];
-            [products setObject:[NSMutableArray new] forKey:category];
-        }
-        
-        NSString *price = [product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE];
-        NSString *count = [product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_COUNT];
-                
-        Product *p = [[Product alloc]
-                      initWithName:[product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_NAME]
-                      price:[floatFormatter numberFromString:price]
-                      count:[[StringFormatter numberFormatter] numberFromString:count]];
-
-        p.descr = [product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_DESCR];
-        p.unit = [product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_UNIT];
-        p.imageURL = [product objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE];
-        
-        [[products objectForKey:category] addObject:p];
+    @try {
+        product.name = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_NAME];
+        product.price = [floatFormatter numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE]];
+        product.count = [[StringFormatter numberFormatter] numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_COUNT]];
+        product.descr = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_DESCR];
+        product.unit = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_UNIT];
+        product.imageURL = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE];
     }
-    
-    if (self.delegate)
-    {
-        Order *o = [Order new];
-        o.totalCosts = totalCosts;
-        o.orderId = orderId;
-        o.categories = categories;
-        o.products = products;
-        o.timestamp = [NSDate dateWithTimeIntervalSince1970:[timestamp floatValue]];
-        
-        [self.delegate download:self didFinishWithOrder:o];
+    @catch (NSException *exception) {
+        product = nil;
+    }
+    @finally {
+        return product;
     }
 }
-
 @end
