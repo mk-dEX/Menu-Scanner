@@ -225,6 +225,9 @@
     [self displayProductInfos:order];
 }
 
-
+- (void)download:(ProductInfoDownloader *)download didReceiveInvalidData:(id)data
+{
+    
+}
 
 @end

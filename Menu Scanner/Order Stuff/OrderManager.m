@@ -83,6 +83,11 @@ static OrderManager *_instance;
     }
 }
 
+- (void)removeOrder:(Order *)oldOrder
+{
+    [registeredOrders removeObject:oldOrder];
+}
+
 - (NSArray *)orders
 {
     return isFiltered ? filteredOrders : registeredOrders;
@@ -164,7 +169,7 @@ static OrderManager *_instance;
 
 - (Boolean)order:(Order *)order appliesToFilter:(NSString *)filter
 {
-    Boolean isDate = ([filter rangeOfString:@"."].location != NSNotFound);
+    Boolean isDate = ([filterString rangeOfString:@"."].location != NSNotFound) || ([filterString rangeOfString:@"/"].location != NSNotFound);
     
     if (!isDate) {
         return [self order:order checkItems:filter];
@@ -208,7 +213,7 @@ static OrderManager *_instance;
 
 #pragma mark - OrderCollectionDownloader Delegate
 
-- (void) download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orderRefs
+- (void)download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orderRefs
 {
     downloadsLeft = [orderRefs count];
         
@@ -220,12 +225,11 @@ static OrderManager *_instance;
 
 #pragma mark - ProductInfoDownloader Delegate
 
-- (void) download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order
+- (void)download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order
 {
     @synchronized(order)
     {
-        if (![registeredOrders containsObject:order])
-        {
+        if (![registeredOrders containsObject:order]) {
             [self addOrder:order];
         }
         downloadsLeft -= 1;
@@ -236,6 +240,11 @@ static OrderManager *_instance;
         [self sortOrders];
         [self notifyDelegate];
     }
+}
+
+- (void)download:(ProductInfoDownloader *)download didReceiveInvalidData:(id)data
+{
+    
 }
 
 #pragma mark - Notifications
