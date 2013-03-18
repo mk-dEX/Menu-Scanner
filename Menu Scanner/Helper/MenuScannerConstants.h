@@ -10,6 +10,7 @@
 #pragma mark - SecurityManager
 
 #define KEYCHAIN_KEY @"user_name"
+#define KEYCHAIN_SERVICE @"Menu Scanner"
 
 
 #pragma mark - Alert View
@@ -84,6 +85,12 @@
 #define PRODUCT_INFO_DOWNLOADER_PRODUCT_UNIT @"unit"
 #define PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE @"price"
 #define PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE @"imageURL"
+
+
+#pragma mark - REST Connection
+
+#define REST_HTTP_RESPONSE @"error"
+#define REST_HTTP_CODE @"code"
 
 
 #pragma mark - Secure REST Connection
