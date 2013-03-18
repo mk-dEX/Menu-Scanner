@@ -111,7 +111,7 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="D5V-N2-rDw"/>
-                                    <constraint firstAttribute="width" constant="200" id="ibg-Uz-ZLM"/>
+                                    <constraint firstAttribute="width" constant="200" id="L8S-9e-wk8"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="0G4-8t-ZeB" appends="YES" id="1YB-Jl-xNS"/>
@@ -119,8 +119,7 @@
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G2i-KK-M86">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="3z8-jA-et9"/>
-                                    <constraint firstAttribute="width" constant="178" id="nle-QG-A2u"/>
+                                    <constraint firstAttribute="width" constant="178" id="mYT-su-cnM"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -129,9 +128,6 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Kategorie" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hzR-lj-mDS">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="NTB-T5-yDs"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -140,8 +136,7 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Preis" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LU4-5f-znL">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="LIr-UC-vNK"/>
-                                    <constraint firstAttribute="width" constant="126" id="Xfx-Jr-Wc1"/>
+                                    <constraint firstAttribute="width" constant="111" id="JhS-TD-6rv"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
@@ -165,49 +160,81 @@
                             </label>
                             <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.30000000000000016" contentMode="scaleToFill" image="check.png" translatesAutoresizingMaskIntoConstraints="NO" id="4Dg-Xu-7A1">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="kQb-lm-Brs"/>
+                                    <constraint firstAttribute="height" constant="30" id="LZK-jl-tc2"/>
                                 </constraints>
                             </imageView>
                             <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.30000000000000016" contentMode="scaleToFill" image="check.png" translatesAutoresizingMaskIntoConstraints="NO" id="yUs-9E-6hi">
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1nj-Dh-0FK"/>
                                     <constraint firstAttribute="width" constant="30" id="K76-Rr-xqH"/>
                                 </constraints>
                             </imageView>
-                            <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.30000000000000016" contentMode="scaleToFill" image="check.png" translatesAutoresizingMaskIntoConstraints="NO" id="hNq-jS-nZ1"/>
+                            <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.30000000000000016" contentMode="scaleToFill" image="check.png" translatesAutoresizingMaskIntoConstraints="NO" id="hNq-jS-nZ1">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Pko-aC-3ex"/>
+                                </constraints>
+                            </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1HJ-Oe-9M3"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80q-Cn-0Uf">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="10c-CM-RP2" kind="popover" identifier="CategoryNames" popoverAnchorView="80q-Cn-0Uf" id="1HI-cP-AX6">
+                                        <popoverArrowDirection key="popoverArrowDirection" left="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v13-Ai-5es">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="1HJ-Oe-9M3" firstAttribute="centerX" secondItem="D0z-MO-bVs" secondAttribute="centerX" type="default" id="0vJ-PL-3Wz"/>
-                            <constraint firstItem="LU4-5f-znL" firstAttribute="bottom" secondItem="DZw-vH-ohr" secondAttribute="bottom" type="default" id="2Ma-uc-5Kw"/>
-                            <constraint firstItem="hNq-jS-nZ1" firstAttribute="leading" secondItem="hzR-lj-mDS" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="3VN-3x-mM9"/>
-                            <constraint firstItem="G2i-KK-M86" firstAttribute="top" secondItem="pz5-aT-EVh" secondAttribute="top" constant="125" id="4dQ-dg-Wjm"/>
-                            <constraint firstItem="hNq-jS-nZ1" firstAttribute="leading" secondItem="yUs-9E-6hi" secondAttribute="leading" type="default" id="5NH-DX-5e4"/>
+                            <constraint firstItem="yUs-9E-6hi" firstAttribute="leading" secondItem="DZw-vH-ohr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="6DS-FJ-5sX"/>
                             <constraint firstAttribute="bottom" secondItem="1HJ-Oe-9M3" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="7Ln-px-r5S"/>
+                            <constraint firstItem="G2i-KK-M86" firstAttribute="leading" secondItem="yUs-9E-6hi" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="9dh-Qp-Msw"/>
+                            <constraint firstItem="LU4-5f-znL" firstAttribute="leading" secondItem="hzR-lj-mDS" secondAttribute="leading" type="default" id="B3U-gG-27b"/>
                             <constraint firstItem="LwR-hu-l2u" firstAttribute="leading" secondItem="pz5-aT-EVh" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="DWc-ta-2Hq"/>
+                            <constraint firstItem="4Dg-Xu-7A1" firstAttribute="bottom" secondItem="DZw-vH-ohr" secondAttribute="bottom" type="default" id="GXf-Wh-15l"/>
                             <constraint firstItem="DZw-vH-ohr" firstAttribute="top" secondItem="pz5-aT-EVh" secondAttribute="top" constant="59" id="H2O-Ul-rel"/>
+                            <constraint firstItem="80q-Cn-0Uf" firstAttribute="leading" secondItem="hzR-lj-mDS" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="HV4-9f-bLO"/>
                             <constraint firstItem="hzR-lj-mDS" firstAttribute="top" secondItem="G2i-KK-M86" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="J3z-tn-MeK"/>
-                            <constraint firstItem="hzR-lj-mDS" firstAttribute="leading" secondItem="DZw-vH-ohr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="JyK-V9-oQT"/>
-                            <constraint firstItem="yUs-9E-6hi" firstAttribute="leading" secondItem="G2i-KK-M86" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Ndq-46-xCQ"/>
-                            <constraint firstItem="G2i-KK-M86" firstAttribute="leading" secondItem="DZw-vH-ohr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Q3Q-JA-PQA"/>
-                            <constraint firstItem="hNq-jS-nZ1" firstAttribute="top" secondItem="hzR-lj-mDS" secondAttribute="top" type="default" id="QW4-ZE-jq5"/>
-                            <constraint firstItem="LU4-5f-znL" firstAttribute="top" secondItem="4Dg-Xu-7A1" secondAttribute="top" type="default" id="QdQ-hb-c2K"/>
-                            <constraint firstItem="4Dg-Xu-7A1" firstAttribute="bottom" secondItem="LU4-5f-znL" secondAttribute="bottom" type="default" id="RLV-3p-f8J"/>
+                            <constraint firstItem="v13-Ai-5es" firstAttribute="centerY" secondItem="G2i-KK-M86" secondAttribute="centerY" type="default" id="Jxr-nz-enS"/>
+                            <constraint firstItem="v13-Ai-5es" firstAttribute="leading" secondItem="80q-Cn-0Uf" secondAttribute="leading" type="default" id="N86-Qb-bNw"/>
+                            <constraint firstItem="G2i-KK-M86" firstAttribute="leading" secondItem="hzR-lj-mDS" secondAttribute="leading" type="default" id="RQN-ZR-E5J"/>
                             <constraint firstItem="yUs-9E-6hi" firstAttribute="top" secondItem="G2i-KK-M86" secondAttribute="top" type="default" id="Sgs-4e-cW6"/>
-                            <constraint firstItem="hNq-jS-nZ1" firstAttribute="bottom" secondItem="hzR-lj-mDS" secondAttribute="bottom" type="default" id="WCg-xI-eh4"/>
                             <constraint firstItem="DZw-vH-ohr" firstAttribute="leading" secondItem="pz5-aT-EVh" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Xjy-3f-m6u"/>
                             <constraint firstItem="FCu-WX-eGA" firstAttribute="leading" secondItem="pz5-aT-EVh" secondAttribute="leading" type="default" id="a2H-mp-Mjx"/>
                             <constraint firstItem="D0z-MO-bVs" firstAttribute="top" secondItem="LwR-hu-l2u" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="bO8-Jg-yZs"/>
-                            <constraint firstItem="LU4-5f-znL" firstAttribute="leading" secondItem="DZw-vH-ohr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="ben-gY-gnB"/>
-                            <constraint firstItem="4Dg-Xu-7A1" firstAttribute="leading" secondItem="LU4-5f-znL" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="e84-QR-InV"/>
+                            <constraint firstItem="v13-Ai-5es" firstAttribute="top" secondItem="pz5-aT-EVh" secondAttribute="top" constant="131" id="blw-i8-l8D"/>
                             <constraint firstAttribute="trailing" secondItem="D0z-MO-bVs" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ecG-GY-cJ8"/>
                             <constraint firstItem="FCu-WX-eGA" firstAttribute="trailing" secondItem="pz5-aT-EVh" secondAttribute="trailing" type="default" id="fS9-ha-KzL"/>
-                            <constraint firstItem="hNq-jS-nZ1" firstAttribute="trailing" secondItem="yUs-9E-6hi" secondAttribute="trailing" type="default" id="hLA-oQ-b7D"/>
+                            <constraint firstItem="hzR-lj-mDS" firstAttribute="leading" secondItem="hNq-jS-nZ1" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="fqA-9N-vpI"/>
                             <constraint firstAttribute="bottom" secondItem="D0z-MO-bVs" secondAttribute="bottom" constant="80" id="hyU-m3-gYX"/>
+                            <constraint firstItem="80q-Cn-0Uf" firstAttribute="centerY" secondItem="hzR-lj-mDS" secondAttribute="centerY" type="default" id="kN5-I6-jNB"/>
                             <constraint firstItem="hNq-jS-nZ1" firstAttribute="top" secondItem="yUs-9E-6hi" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="lWT-wg-Grl"/>
                             <constraint firstItem="FCu-WX-eGA" firstAttribute="top" secondItem="pz5-aT-EVh" secondAttribute="top" type="default" id="mnY-hu-Vwi"/>
+                            <constraint firstItem="LU4-5f-znL" firstAttribute="top" secondItem="4Dg-Xu-7A1" secondAttribute="top" type="default" id="nCS-cR-5Wh"/>
+                            <constraint firstItem="LU4-5f-znL" firstAttribute="leading" secondItem="4Dg-Xu-7A1" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="nQc-Pz-e79"/>
+                            <constraint firstItem="4Dg-Xu-7A1" firstAttribute="leading" secondItem="DZw-vH-ohr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="sXg-Lc-1CG"/>
                             <constraint firstItem="D0z-MO-bVs" firstAttribute="leading" secondItem="pz5-aT-EVh" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="uhV-6W-Osf"/>
+                            <constraint firstItem="v13-Ai-5es" firstAttribute="leading" secondItem="G2i-KK-M86" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="yxu-qS-Jzf"/>
+                            <constraint firstItem="hNq-jS-nZ1" firstAttribute="leading" secondItem="DZw-vH-ohr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="zvk-t0-W3o"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Wnm-7A-GHg" appends="YES" id="K6M-A9-hgd"/>
@@ -244,6 +271,66 @@
             </objects>
             <point key="canvasLocation" x="-1174" y="-1012"/>
         </scene>
+        <!--Category Picker View Controller-->
+        <scene sceneID="KUo-f1-nsZ">
+            <objects>
+                <tableViewController id="10c-CM-RP2" customClass="CategoryPickerViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="54" sectionHeaderHeight="22" sectionFooterHeight="22" id="sJC-R3-jJB">
+                        <rect key="frame" x="0.0" y="20" width="200" height="240"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" rowHeight="60" id="lKY-N9-dIj" customClass="CategoryCell">
+                                <rect key="frame" x="0.0" y="22" width="200" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6L2-S4-8yh">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="GtP-dN-1X7"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" title="Kategorie">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="didSelectCategory:" destination="lKY-N9-dIj" eventType="touchUpInside" id="Nxf-7H-PvD"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="6L2-S4-8yh" firstAttribute="centerY" secondItem="lKY-N9-dIj" secondAttribute="centerY" type="default" id="Iy1-fH-qkd"/>
+                                    <constraint firstAttribute="trailing" secondItem="6L2-S4-8yh" secondAttribute="trailing" constant="20" type="default" id="bne-nr-RGh"/>
+                                    <constraint firstItem="6L2-S4-8yh" firstAttribute="leading" secondItem="lKY-N9-dIj" secondAttribute="leading" constant="20" type="default" id="wx6-k4-Puj"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="name" destination="6L2-S4-8yh" id="FIu-LZ-0Xe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="10c-CM-RP2" id="xoD-KC-arZ"/>
+                            <outlet property="delegate" destination="10c-CM-RP2" id="eU1-5w-DJN"/>
+                        </connections>
+                    </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <segue destination="cHM-Cc-pAA" kind="unwind" identifier="UnwindCategoryPicker" unwindAction="unwindFromCategoryPicker:" id="WAO-2X-tFw"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fne-0I-86e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="cHM-Cc-pAA" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="-464" y="-1069"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="JQZ-Co-0pT">
             <objects>
@@ -266,7 +353,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="y99-KN-zo9" kind="unwind" unwindAction="unwindFromViewControllerUsingLibrary:" id="7TH-cj-izy"/>
+                                    <segue destination="y99-KN-zo9" kind="unwind" unwindAction="unwindFromImageOptionPickerUsingLibrary:" id="108-uQ-Jce"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DD-yY-B9U">
@@ -282,7 +369,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="y99-KN-zo9" kind="unwind" unwindAction="unwindFromViewControllerUsingCamera:" id="YFn-gH-m2x"/>
+                                    <segue destination="y99-KN-zo9" kind="unwind" unwindAction="unwindFromImageOptionPickerUsingCamera:" id="BNF-or-VeN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -301,7 +388,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mJo-D2-pZj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="y99-KN-zo9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-464" y="-758"/>
+            <point key="canvasLocation" x="-464" y="-456"/>
         </scene>
         <!--Reader View Controller-->
         <scene sceneID="Nd8-B4-FzF">
@@ -588,6 +675,116 @@
         <image name="separator.png" width="258" height="21"/>
         <image name="vader.jpg" width="339" height="480"/>
     </resources>
+    <classes>
+        <class className="AuthenticationViewController" superclassName="ECSlidingViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AuthenticationViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="authenticateUser:"/>
+                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="CategoryCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoryCell.h"/>
+            <relationships>
+                <relationship kind="action" name="didSelectCategory:"/>
+                <relationship kind="outlet" name="name" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="CategoryPickerViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoryPickerViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+            </relationships>
+        </class>
+        <class className="ECSlidingViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ECSlidingViewController.h"/>
+        </class>
+        <class className="ItemViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ItemViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="closeForm:"/>
+                <relationship kind="action" name="closeFormAndSaveItem:"/>
+                <relationship kind="action" name="unwindFromCategoryPicker:" candidateClass="UIStoryboardSegue"/>
+                <relationship kind="action" name="unwindFromImageOptionPickerUsingCamera:" candidateClass="UIStoryboardSegue"/>
+                <relationship kind="action" name="unwindFromImageOptionPickerUsingLibrary:" candidateClass="UIStoryboardSegue"/>
+                <relationship kind="outlet" name="category" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="checkCategory" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="checkName" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="checkPrice" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="descr" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="name" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="price" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="uploadIndicator" candidateClass="UIActivityIndicatorView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="OrderCollectionViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OrderCollectionViewController.h"/>
+        </class>
+        <class className="OrderInfoCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OrderInfoCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="costs" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="date" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="time" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="OrderViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OrderViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addNewItem:"/>
+                <relationship kind="action" name="showCamera:"/>
+                <relationship kind="action" name="showOrders:"/>
+                <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="navigationItem" candidateClass="UINavigationItem"/>
+            </relationships>
+        </class>
+        <class className="ProductInfoCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProductInfoCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="descr" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="price" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="total" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ProductInfoHeader" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProductInfoHeader.h"/>
+            <relationships>
+                <relationship kind="outlet" name="headerTitle" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ReaderViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ReaderViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="closeForm:"/>
+                <relationship kind="outlet" name="reader" candidateClass="ZBarReaderView"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+        <class className="UIStoryboardSegue" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIStoryboardSegue.h"/>
+        </class>
+        <class className="ZBarReaderView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ZBarReaderView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
