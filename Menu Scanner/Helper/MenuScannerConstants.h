@@ -87,6 +87,13 @@
 #define PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE @"imageURL"
 
 
+#pragma mark - Category Collection Downloader
+
+#define CATEGORY_COLLECTION_DOWNLOADER_URL @"http://api.codingduck.de/categories"
+#define CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_NAME @"name"
+#define CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_ID @"id"
+
+
 #pragma mark - REST Connection
 
 #define REST_HTTP_RESPONSE @"error"
