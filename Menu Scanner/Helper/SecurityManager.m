@@ -72,7 +72,7 @@
 {
     NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
     [searchDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
-    [searchDictionary setObject:@"Menu Scanner" forKey:(__bridge id)kSecAttrService];
+    [searchDictionary setObject:KEYCHAIN_SERVICE forKey:(__bridge id)kSecAttrService];
     
     NSData *encodedIdentifier = [identifier dataUsingEncoding:NSUTF8StringEncoding];
     [searchDictionary setObject:encodedIdentifier forKey:(__bridge id)kSecAttrGeneric];
@@ -141,12 +141,7 @@
     [updateDictionary setObject:valueData forKey:(__bridge id)kSecValueData];
     
     OSStatus status = SecItemUpdate((__bridge CFDictionaryRef)searchDictionary, (__bridge CFDictionaryRef)updateDictionary);
-    
-    if (status == errSecSuccess) {
-        return YES;
-    }
-    
-    return NO;
+    return status == errSecSuccess;
 }
 
 @end
