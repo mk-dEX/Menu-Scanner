@@ -8,20 +8,13 @@
 
 #import "Order.h"
 
-@interface Order ()
-@property (strong, nonatomic) NSDateFormatter *timeFormatter;
-@property (strong, nonatomic) NSNumberFormatter *numberFormatter;
-@end
-
 @implementation Order
 
 @synthesize categories;
 @synthesize products;
 @synthesize totalCosts;
+@synthesize orderId;
 @synthesize timestamp;
-
-@synthesize timeFormatter;
-@synthesize numberFormatter;
 
 - (id) init {
     self = [super init];
@@ -29,9 +22,7 @@
         categories = [NSArray new];
         products = [NSDictionary new];
         totalCosts = @0;
-        
-        timeFormatter = [NSDateFormatter new];
-        numberFormatter = [NSNumberFormatter new];
+        orderId = @0;
     }
     return self;
 }
@@ -59,7 +50,7 @@
     if (!other || ![other isKindOfClass:[self class]])
         return NO;
     
-    return [self.timestamp isEqualToDate:((Order *)other).timestamp];
+    return [self.orderId isEqualToNumber:((Order *)other).orderId];
 }
 
 @end
