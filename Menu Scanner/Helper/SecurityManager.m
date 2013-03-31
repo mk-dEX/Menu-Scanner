@@ -12,7 +12,7 @@
 
 @implementation SecurityManager
 
-#pragma mark - Hash value calculation
+#pragma mark - Hash
 
 + (NSString *)hashString:(NSString *)data withSalt:(NSString *)salt
 {
@@ -34,7 +34,7 @@
     return hash;
 }
 
-#pragma mark - User name store
+#pragma mark - User name 
 
 + (BOOL)storeUserName:(NSString *)name
 {
@@ -44,29 +44,25 @@
     return YES;
 }
 
-#pragma mark - User name load
-
 + (NSString *)loadUserName
 {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     return [prefs stringForKey:KEYCHAIN_KEY];
 }
 
-#pragma mark - User password store
+#pragma mark - User password
 
 + (BOOL)storePassword:(NSString *)password forUser:(NSString *)user
 {
     return [self createKeychainValue:password forIdentifier:user];
 }
 
-#pragma mark - User password load
-
 + (NSString *)loadPasswordForUser:(NSString *)user
 {
     return [self keychainValueForIdentifier:user];
 }
 
-#pragma mark - Keychain init
+#pragma mark - Keychain handlers
 
 + (NSMutableDictionary *)setupSearchDirectoryForIdentifier:(NSString *)identifier
 {
@@ -80,8 +76,6 @@
     
     return searchDictionary;
 }
-
-#pragma mark - Keychain load
 
 + (NSData *)searchKeychainForIdentifier:(NSString *)identifier
 {
@@ -111,8 +105,6 @@
     
     return nil;
 }
-
-#pragma mark - Keychain store
 
 + (BOOL)createKeychainValue:(NSString *)password forIdentifier:(NSString *)user
 {
