@@ -12,18 +12,10 @@
 
 @implementation OrderUpdater
 
-- (BOOL)removeOrderWithId:(NSNumber *)orderId
+- (BOOL)removeOrderWithID:(NSNumber *)orderID;
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", ORDER_UPDATER_URL, orderId];
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSString *user;
-    NSString *password;
-    if ((user = [SecurityManager loadUserName]) == nil || (password = [SecurityManager loadPasswordForUser:user]) == nil) {
-        return NO;
-    }
-    
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:ORDER_UPDATER_METHOD withName:user andPassword:password];
+    NSString *requestedURL = [NSString stringWithFormat:@"%@/%@", REST_ORDERS, orderID];
+    NSURLRequest *secureRequest = [self secureRequestUsingKeychainForURL:requestedURL method:@"DELETE"];
     return secureRequest && [self executeRequest:secureRequest];
 }
 

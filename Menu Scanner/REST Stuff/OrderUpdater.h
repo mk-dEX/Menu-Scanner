@@ -9,5 +9,5 @@
 #import "SecureRESTConnection.h"
 
 @interface OrderUpdater : SecureRESTConnection
-- (BOOL)removeOrderWithId:(NSNumber *)orderId;
+- (BOOL)removeOrderWithID:(NSNumber *)orderID;
 @end

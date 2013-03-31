@@ -17,6 +17,15 @@
 
 @synthesize receivedData;
 @synthesize httpDelegate;
+@synthesize baseURL;
+
+- (id)init
+{
+    if (self = [super init]) {
+        baseURL = [NSURL URLWithString:REST_BASE];
+    }
+    return self;
+}
 
 - (BOOL)executeRequest:(NSURLRequest *)request
 {

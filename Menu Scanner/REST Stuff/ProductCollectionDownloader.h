@@ -16,5 +16,5 @@
 @interface ProductCollectionDownloader : RESTConnection
 @property (weak, nonatomic) id<ProductCollectionDownloaderDelegate> delegate;
 - (BOOL)downloadProductCollection;
-- (BOOL)downloadProductCollectionWithId:(NSNumber *)categoryId;
+- (BOOL)downloadProductCollectionWithID:(NSNumber *)categoryID;
 @end

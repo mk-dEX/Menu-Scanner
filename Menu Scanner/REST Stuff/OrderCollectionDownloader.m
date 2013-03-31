@@ -16,17 +16,9 @@
 
 @synthesize delegate;
 
-- (BOOL)startDownload
+- (BOOL)downloadOrderCollection
 {
-    NSURL *url = [NSURL URLWithString:ORDER_COLLECTION_DOWNLOADER_URL];
-    
-    NSString *user;
-    NSString *password;
-    if ((user = [SecurityManager loadUserName]) == nil || (password = [SecurityManager loadPasswordForUser:user]) == nil) {
-        return NO;
-    }
-    
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST"withName:user andPassword:password];
+    NSURLRequest *secureRequest = [self secureRequestUsingKeychainForURL:REST_ORDERS method:@"POST"];
     return secureRequest && [self executeRequest:secureRequest];
 }
 
@@ -41,8 +33,8 @@
         }
     }
     
-    if (self.delegate) {   
-        [self.delegate download:self didFinishWithOrderCollection:orderRefs];
+    if (delegate) {
+        [delegate download:self didFinishWithOrderCollection:orderRefs];
     }
 }
                         
@@ -53,7 +45,7 @@
     @try {
         orderRef.orderHash = [jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_HASH];
         orderRef.orderTime = [NSDate dateWithTimeIntervalSince1970:[[jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_TIME] floatValue]];
-        orderRef.orderId = [[StringFormatter numberFormatter] numberFromString:[jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_ID]];
+        orderRef.orderID = [[StringFormatter numberFormatter] numberFromString:[jsonOrderRef objectForKey:ORDER_COLLECTION_DOWNLOADER_ID]];
     }
     @catch (NSException *exception) {
         orderRef = nil;

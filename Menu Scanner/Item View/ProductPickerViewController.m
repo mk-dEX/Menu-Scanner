@@ -112,7 +112,7 @@
 - (IBAction)refresh:(id)sender
 {
     if (categoryId) {
-        [productDownloader downloadProductCollectionWithId:categoryId];
+        [productDownloader downloadProductCollectionWithID:categoryId];
     }
     else {
         [productDownloader downloadProductCollection];

@@ -24,5 +24,6 @@ typedef enum {
 
 @interface RESTConnection : NSObject <NSURLConnectionDelegate>
 @property (weak, nonatomic) id<RESTConnectionDelegate>httpDelegate;
+@property (strong, nonatomic) NSURL *baseURL;
 - (BOOL)executeRequest:(NSURLRequest *)request;
 @end

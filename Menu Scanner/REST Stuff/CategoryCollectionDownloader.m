@@ -17,8 +17,11 @@
 
 - (BOOL)downloadCategoryCollection
 {
-    NSURL *targetURL = [NSURL URLWithString:CATEGORY_COLLECTION_DOWNLOADER_URL];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSURL *requestedURL = [NSURL URLWithString:REST_CATEGORIES
+                                 relativeToURL:self.baseURL];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestedURL
+                                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                              timeoutInterval:REQUEST_TIMEOUT];
     return request && [self executeRequest:request];
 }
 
@@ -37,8 +40,7 @@
         }
     }
     
-    if (delegate)
-    {
+    if (delegate) {
         [delegate download:self didFinishWithCategoryCollection:categories];
     }
 }
@@ -49,7 +51,7 @@
     
     @try {
         category.name = [jsonCategory valueForKey:CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_NAME];
-        category.categoryId = [[StringFormatter numberFormatter] numberFromString:[jsonCategory valueForKey:CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_ID]];
+        category.categoryID = [[StringFormatter numberFormatter] numberFromString:[jsonCategory valueForKey:CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_ID]];
     }
     @catch (NSException *exception) {
         category = nil;

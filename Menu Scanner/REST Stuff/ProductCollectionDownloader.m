@@ -9,23 +9,35 @@
 #import "ProductCollectionDownloader.h"
 #import "MenuScannerConstants.h"
 #import "Product.h"
+#import "Category.h"
 #import "StringFormatter.h"
 
 @implementation ProductCollectionDownloader
 
 @synthesize delegate;
 
-- (BOOL)downloadProductCollectionWithId:(NSNumber *)categoryId
+- (BOOL)downloadProductCollectionWithID:(NSNumber *)categoryID;
 {
-    NSString *relativUrlString = [categoryId isEqualToNumber:@-1] ? @"" : [NSString stringWithFormat:@"/%@/items", [[StringFormatter numberFormatter] stringFromNumber:categoryId]];
-    NSURL *targetURL = [NSURL URLWithString:[PRODUCT_COLLECTION_DOWNLODER_URL stringByAppendingString:relativUrlString]];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    if (!categoryID) return NO;
+    
+    NSURL *requestedURL;
+    if ([categoryID isEqualToNumber:@-1]) {
+        requestedURL = [NSURL URLWithString:REST_ITEMS relativeToURL:self.baseURL];
+    }
+    else {
+        requestedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@%@", REST_CATEGORIES, categoryID, REST_ITEMS] relativeToURL:self.baseURL];
+    }
+    
+    
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestedURL
+                                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                              timeoutInterval:REQUEST_TIMEOUT];
     return request && [self executeRequest:request];
 }
 
 - (BOOL)downloadProductCollection;
 {
-    return [self downloadProductCollectionWithId:@-1];
+    return [self downloadProductCollectionWithID:@-1];
 }
 
 #pragma mark - JSON Processing
@@ -39,7 +51,7 @@
         Product *scannedProduct = [self productFromJson:product];
         
         if (scannedProduct) {
-            NSString *key = scannedProduct.category;
+            NSString *key = scannedProduct.category.name;
             if (![products objectForKey:key]) {
                 [products setValue:[NSMutableArray new] forKey:key];
             }
@@ -47,8 +59,7 @@
         }
     }
     
-    if (delegate)
-    {
+    if (delegate) {
         [delegate download:self didFinishWithProductCollection:products];
     }
 }
@@ -61,14 +72,17 @@
     [floatFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
     
     @try {
-        product.productId = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_ID];
+        product.productID = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_ID];
         product.name = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_NAME];
         product.descr = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_DESCR];
         product.unit = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_UNIT];
-        product.categoryId = [[StringFormatter numberFormatter] numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY_ID]];
-        product.category = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY];
         product.imageURL = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE];
         product.price = [floatFormatter numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE_DEFAULT]];
+        
+        Category *category = [Category new];
+        category.categoryID = [[StringFormatter numberFormatter] numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY_ID]];
+        category.name = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY];
+        product.category = category;
     }
     @catch (NSException *exception) {
         product = nil;

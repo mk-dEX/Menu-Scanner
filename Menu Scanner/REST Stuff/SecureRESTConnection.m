@@ -12,21 +12,37 @@
 
 @implementation SecureRESTConnection
 
-- (NSURLRequest *)secureRequestForUrl:(NSURL *)requestedUrl method:(NSString *)httpMethod withName:(NSString *)user andPassword:(NSString *)password
+- (NSURLRequest *)secureRequestForURL:(NSString *)relativeURL
+                               method:(NSString *)httpMethod
+                                 name:(NSString *)user
+                             password:(NSString *)password
 {
-    long timestamp = (long)[[NSDate date] timeIntervalSince1970];
-    NSString *relativeUrl = [[requestedUrl absoluteString] stringByReplacingOccurrencesOfString:SECURE_REST_CONNECTION_BASE_URL withString:@""];
-    
-    NSString *signature = [NSString stringWithFormat:@"%@.%@.%ld", relativeUrl, user, timestamp];
+    long timestamp = (long)[[NSDate date] timeIntervalSince1970];    
+    NSString *signature = [NSString stringWithFormat:@"%@.%@.%ld", relativeURL, user, timestamp];
     NSString *signatureHash = [SecurityManager hashString:signature withSalt:password];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestedUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSURL *requestedURL = [NSURL URLWithString:relativeURL relativeToURL:self.baseURL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestedURL
+                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                            timeoutInterval:REQUEST_TIMEOUT];
     [request setValue:[NSString stringWithFormat:@"%ld", timestamp] forHTTPHeaderField:SECURE_REST_CONNECTION_TIMESTAMP];
     [request setValue:signatureHash forHTTPHeaderField:SECURE_REST_CONNECTION_SIGNATURE];
     [request setValue:user forHTTPHeaderField:SECURE_REST_CONNECTION_USERNAME];
     [request setHTTPMethod:httpMethod];
     
     return request;
+}
+
+- (NSURLRequest *)secureRequestUsingKeychainForURL:(NSString *)relativeURL
+                                            method:(NSString *)httpMethod
+{
+    NSString *user;
+    NSString *password;
+    if ((user = [SecurityManager loadUserName]) == nil || (password = [SecurityManager loadPasswordForUser:user]) == nil) {
+        return nil;
+    }
+    
+    return [self secureRequestForURL:relativeURL method:httpMethod name:user password:password];
 }
 
 @end

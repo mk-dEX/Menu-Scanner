@@ -111,7 +111,7 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         OrderUpdater *orderUpdater = [OrderUpdater new];
-        [orderUpdater removeOrderWithId:removedOrder.orderId];
+        [orderUpdater removeOrderWithID:removedOrder.orderID];
     }     
 }
 

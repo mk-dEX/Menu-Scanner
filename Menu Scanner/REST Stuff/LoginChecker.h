@@ -9,5 +9,6 @@
 #import "SecureRESTConnection.h"
 
 @interface LoginChecker : SecureRESTConnection
-- (BOOL)authenticateWithPassword:(NSString *)password forName:(NSString *)user;
+- (BOOL)authenticateWithPassword:(NSString *)password
+                         forName:(NSString *)user;
 @end

@@ -204,7 +204,7 @@
     
     ProductInfoDownloader *downloader = [ProductInfoDownloader new];
     downloader.delegate = self;
-    [downloader startDownloadForOrderHash:hash];
+    [downloader downloadOrderWithHash:hash];
 }
 
 #pragma mark - Order Collection View Delegates

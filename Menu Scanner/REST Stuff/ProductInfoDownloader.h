@@ -18,5 +18,5 @@
 
 @interface ProductInfoDownloader : RESTConnection
 @property (weak) id<ProductInfoDownloaderDelegate> delegate;
-- (BOOL) startDownloadForOrderHash:(NSString *)hash;
+- (BOOL)downloadOrderWithHash:(NSString *)hash;
 @end

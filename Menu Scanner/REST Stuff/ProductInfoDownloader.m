@@ -16,10 +16,13 @@
 
 @synthesize delegate;
 
-- (BOOL) startDownloadForOrderHash:(NSString *)hash
+- (BOOL)downloadOrderWithHash:(NSString *)hash
 {
-    NSURL *targetURL = [NSURL URLWithString:[PRODUCT_INFO_DOWNLOADER_URL stringByAppendingString:hash]];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:targetURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSURL *requestedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", REST_ORDERS, hash]
+                                 relativeToURL:self.baseURL];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:requestedURL
+                                                  cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                              timeoutInterval:REQUEST_TIMEOUT];
     return request && [self executeRequest:request];
 }
 
@@ -48,10 +51,6 @@
     {
         Order *scannedOrder = [self orderFromJson:json];
         if (scannedOrder) {
-            scannedOrder.categories = [@[@"PLACEHOLDER"] arrayByAddingObjectsFromArray:categories];
-            [products setObject:@[] forKey:@"PLACEHOLDER"];
-            scannedOrder.products = products;
-            
             [self.delegate download:self didFinishWithOrder:scannedOrder];
         }
         else {
@@ -66,7 +65,7 @@
     
     @try {
         order.totalCosts = [jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_TOTAL_COSTS];
-        order.orderId = [[StringFormatter numberFormatter] numberFromString:[jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_ID]];
+        order.orderID = [[StringFormatter numberFormatter] numberFromString:[jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_ID]];
         order.timestamp = [NSDate dateWithTimeIntervalSince1970:[[jsonResponse objectForKey:PRODUCT_INFO_DOWNLOADER_TIME] floatValue]];
     }
     @catch (NSException *exception) {

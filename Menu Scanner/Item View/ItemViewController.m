@@ -78,7 +78,7 @@
     if ([[segue identifier] isEqualToString:@"Names"]) {
         if (selectedProduct) {
             ProductPickerViewController *productPicker = segue.destinationViewController;
-            productPicker.categoryId = selectedProduct.categoryId;
+            productPicker.categoryId = selectedProduct.category.categoryID;
         }
     }
 }
@@ -97,7 +97,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [self textFieldIsValid:textField];
+    [self checkField:textField];
 }
 
 - (BOOL)textFielsShouldReturn:(UITextField *)textField {
@@ -109,10 +109,10 @@
 
 - (BOOL)allFieldsValid
 {
-    return [self textFieldIsValid:name] & [self textFieldIsValid:category] & [self textFieldIsValid:price];
+    return [self checkField:name] & [self checkField:category] & [self checkField:price];
 }
 
-- (BOOL)textFieldIsValid:(UITextField *)field
+- (BOOL)checkField:(UITextField *)field
 {
     BOOL isValid = NO;
     UIImageView *correspondingCheckView;
@@ -229,7 +229,7 @@
 {
     self.selectedCategory = [((CategoryPickerViewController *)segue.sourceViewController) selectedCategory];
     [category setText:selectedCategory.name];
-    [self textFieldIsValid:category];
+    [self checkField:category];
 }
 
 #pragma mark - Product picker delegates
@@ -238,17 +238,17 @@
 {
     self.selectedProduct = [((ProductPickerViewController *)segue.sourceViewController) selectedProduct];
     [name setText:selectedProduct.name];
-    [self textFieldIsValid:name];
+    [self checkField:name];
     
     if ([category.text isEqualToString:@""]) {
-        [category setText:selectedProduct.category];
-        [self textFieldIsValid:category];
+        [category setText:selectedProduct.category.name];
+        [self checkField:category];
         self.selectedCategory = nil;
     }
     
     if ([price.text isEqualToString:@""]) {
         [price setText:[[selectedProduct.price stringValue] stringByReplacingOccurrencesOfString:@"." withString:@","]];
-        [self textFieldIsValid:price];
+        [self checkField:price];
     }
     
     if ([descr.text isEqualToString:@""]) {

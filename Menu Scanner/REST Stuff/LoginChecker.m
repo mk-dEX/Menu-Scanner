@@ -12,10 +12,10 @@
 
 @implementation LoginChecker
 
-- (BOOL)authenticateWithPassword:(NSString *)password forName:(NSString *)user
+- (BOOL)authenticateWithPassword:(NSString *)password
+                         forName:(NSString *)user
 {
-    NSURL *url = [NSURL URLWithString:LOGIN_CHECKER_URL];
-    NSURLRequest *secureRequest = [self secureRequestForUrl:url method:@"POST" withName:user andPassword:password];
+    NSURLRequest *secureRequest = [self secureRequestForURL:REST_LOGIN method:@"POST" name:user password:password];
     return secureRequest && [self executeRequest:secureRequest];
 }
 

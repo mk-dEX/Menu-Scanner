@@ -9,5 +9,10 @@
 #import "RESTConnection.h"
 
 @interface SecureRESTConnection : RESTConnection
-- (NSURLRequest *)secureRequestForUrl:(NSURL *)requestedUrl method:(NSString *)httpMethod withName:(NSString *)user andPassword:(NSString *)password;
+- (NSURLRequest *)secureRequestForURL:(NSString *)relativeURL
+                               method:(NSString *)httpMethod
+                                 name:(NSString *)user
+                             password:(NSString *)password;
+- (NSURLRequest *)secureRequestUsingKeychainForURL:(NSString *)relativeURL
+                                            method:(NSString *)httpMethod;
 @end
