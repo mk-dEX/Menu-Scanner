@@ -52,20 +52,21 @@
 #define READER_TITLE @"QR Scan"
 
 
-#pragma mark - Order Updater
+#pragma mark - REST
 
-#define ORDER_UPDATER_URL @"http://api.codingduck.de/orders/"
-#define ORDER_UPDATER_METHOD @"DELETE"
+#define REQUEST_TIMEOUT 10.0
 
+#define REST_BASE @"http://api.codingduck.de"
 
-#pragma mark - Login Checker
+#define REST_ORDERS @"/orders"
+#define REST_LOGIN @"/login/check"
+#define REST_CATEGORIES @"/categories"
+#define REST_ITEMS @"/items"
 
-#define LOGIN_CHECKER_URL @"http://api.codingduck.de/login/check"
 
 
 #pragma mark - Order Collection Downloader
 
-#define ORDER_COLLECTION_DOWNLOADER_URL @"http://api.codingduck.de/orders/"
 #define ORDER_COLLECTION_DOWNLOADER_ID @"id"
 #define ORDER_COLLECTION_DOWNLOADER_HASH @"hash"
 #define ORDER_COLLECTION_DOWNLOADER_TIME @"orderTime"
@@ -73,7 +74,6 @@
 
 #pragma mark - Product Info Downloader
 
-#define PRODUCT_INFO_DOWNLOADER_URL @"http://api.codingduck.de/orders/"
 #define PRODUCT_INFO_DOWNLOADER_TOTAL_COSTS @"total"
 #define PRODUCT_INFO_DOWNLOADER_PRODUCTS @"items"
 #define PRODUCT_INFO_DOWNLOADER_ID @"id"
@@ -91,14 +91,8 @@
 
 #pragma mark - Category Collection Downloader
 
-#define CATEGORY_COLLECTION_DOWNLOADER_URL @"http://api.codingduck.de/categories"
 #define CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_NAME @"name"
 #define CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_ID @"id"
-
-
-#pragma mark - Product Collection Downloader
-
-#define PRODUCT_COLLECTION_DOWNLODER_URL @"http://api.codingduck.de/items"
 
 
 #pragma mark - REST Connection
@@ -109,7 +103,6 @@
 
 #pragma mark - Secure REST Connection
 
-#define SECURE_REST_CONNECTION_BASE_URL @"http://api.codingduck.de"
 #define SECURE_REST_CONNECTION_USERNAME @"QRAuth_username"
 #define SECURE_REST_CONNECTION_TIMESTAMP @"QRAuth_timestamp"
 #define SECURE_REST_CONNECTION_SIGNATURE @"QRAuth_signature"
