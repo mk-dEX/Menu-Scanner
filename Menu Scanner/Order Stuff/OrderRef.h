@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface OrderRef : NSObject
-@property (strong, nonatomic) NSNumber *orderId;
+@property (strong, nonatomic) NSNumber *orderID;
 @property (strong, nonatomic) NSString *orderHash;
 @property (strong, nonatomic) NSDate *orderTime;
 @end

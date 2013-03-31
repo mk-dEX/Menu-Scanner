@@ -106,7 +106,7 @@ static OrderManager *_instance;
 
 - (void)updateOrders
 {
-    [orderCollectionDownloader startDownload];
+    [orderCollectionDownloader downloadOrderCollection];
 }
 
 - (void)sortOrders
@@ -219,7 +219,7 @@ static OrderManager *_instance;
         
     for (OrderRef *or in orderRefs)
     {
-        [productInfoDownloader startDownloadForOrderHash:or.orderHash];
+        [productInfoDownloader downloadOrderWithHash:or.orderHash];
     }
 }
 

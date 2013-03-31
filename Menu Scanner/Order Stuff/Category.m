@@ -10,5 +10,5 @@
 
 @implementation Category
 @synthesize name;
-@synthesize categoryId;
+@synthesize categoryID;
 @end

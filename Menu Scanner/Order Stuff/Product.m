@@ -9,7 +9,7 @@
 #import "Product.h"
 
 @implementation Product
-@synthesize productId;
+@synthesize productID;
 @synthesize name;
 @synthesize descr;
 @synthesize unit;
@@ -17,5 +17,4 @@
 @synthesize count;
 @synthesize imageURL;
 @synthesize category;
-@synthesize categoryId;
 @end

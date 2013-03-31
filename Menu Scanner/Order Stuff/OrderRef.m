@@ -9,7 +9,7 @@
 #import "OrderRef.h"
 
 @implementation OrderRef
-@synthesize orderId;
+@synthesize orderID;
 @synthesize orderHash;
 @synthesize orderTime;
 @end

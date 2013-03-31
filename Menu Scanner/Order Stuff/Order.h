@@ -13,7 +13,7 @@
 @property (strong, nonatomic) NSDictionary *products;
 @property (strong, nonatomic) NSArray *categories;
 @property (strong, nonatomic) NSNumber *totalCosts;
-@property (strong, nonatomic) NSNumber *orderId;
+@property (strong, nonatomic) NSNumber *orderID;
 @property (strong, nonatomic) NSDate *timestamp;
 
 - (NSInteger) numberOfCategories;

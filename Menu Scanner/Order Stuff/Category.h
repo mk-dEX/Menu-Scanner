@@ -10,5 +10,5 @@
 
 @interface Category : NSObject
 @property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSNumber *categoryId;
+@property (strong, nonatomic) NSNumber *categoryID;
 @end

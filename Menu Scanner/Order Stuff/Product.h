@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@class Category;
 
 @interface Product : NSObject
-@property (strong, nonatomic) NSNumber *productId;
+@property (strong, nonatomic) NSNumber *productID;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *descr;
 @property (strong, nonatomic) NSString *unit;
 @property (strong, nonatomic) NSNumber *price;
 @property (strong, nonatomic) NSNumber *count;
 @property (strong, nonatomic) NSString *imageURL;
-@property (strong, nonatomic) NSNumber *categoryId;
-@property (strong, nonatomic) NSString *category;
+
+@property (strong, nonatomic) Category *category;
 @end

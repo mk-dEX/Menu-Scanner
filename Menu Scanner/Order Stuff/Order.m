@@ -13,7 +13,7 @@
 @synthesize categories;
 @synthesize products;
 @synthesize totalCosts;
-@synthesize orderId;
+@synthesize orderID;
 @synthesize timestamp;
 
 - (id) init {
@@ -22,7 +22,7 @@
         categories = [NSArray new];
         products = [NSDictionary new];
         totalCosts = @0;
-        orderId = @0;
+        orderID = @0;
     }
     return self;
 }
@@ -50,7 +50,7 @@
     if (!other || ![other isKindOfClass:[self class]])
         return NO;
     
-    return [self.orderId isEqualToNumber:((Order *)other).orderId];
+    return [self.orderID isEqualToNumber:((Order *)other).orderID];
 }
 
 @end
