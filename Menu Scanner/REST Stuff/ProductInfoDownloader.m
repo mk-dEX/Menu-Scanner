@@ -51,6 +51,8 @@
     {
         Order *scannedOrder = [self orderFromJson:json];
         if (scannedOrder) {
+            scannedOrder.categories = categories;
+            scannedOrder.products = products;
             [self.delegate download:self didFinishWithOrder:scannedOrder];
         }
         else {
