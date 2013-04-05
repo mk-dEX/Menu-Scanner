@@ -41,7 +41,8 @@
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
-- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation
+                                duration:(NSTimeInterval)duration
 {
     [reader willRotateToInterfaceOrientation:orientation duration:duration];
 }
