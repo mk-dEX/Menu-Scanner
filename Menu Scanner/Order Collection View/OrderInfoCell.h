@@ -13,6 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *date;
 @property (strong, nonatomic) IBOutlet UILabel *time;
 @property (strong, nonatomic) IBOutlet UILabel *costs;
+@property (strong, nonatomic) IBOutlet UIImageView *checkScanned;
 @property (strong, nonatomic) Order *order;
-@property (strong, nonatomic) NSString *orderId;
 @end

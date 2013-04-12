@@ -14,6 +14,5 @@
 @synthesize time;
 @synthesize costs;
 @synthesize order;
-@synthesize orderId;
-
+@synthesize checkScanned;
 @end

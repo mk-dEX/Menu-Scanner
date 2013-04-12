@@ -1,8 +1,8 @@
 //
 //  OrderCollectionDownloader.h
-//  Menu Scanner 2
+//  Menu Scanner
 //
-//  Created by Marc Kirchmann on 22.02.13.
+//  Created by Marc Kirchmann on 06.04.13.
 //  Copyright (c) 2013 Marc Kirchmann. All rights reserved.
 //
 
@@ -10,10 +10,10 @@
 
 @class OrderCollectionDownloader;
 @protocol OrderCollectionDownloaderDelegate
-- (void) download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orderRefs;
+- (void)download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orders;
 @end
 
 @interface OrderCollectionDownloader : SecureRESTConnection
-@property (weak) id<OrderCollectionDownloaderDelegate> delegate;
-- (BOOL)downloadOrderCollection;
+@property (weak, nonatomic) id<OrderCollectionDownloaderDelegate> delegate;
+- (BOOL)downloadOrderCollectionWithHashes:(NSArray *)orderHashes;
 @end

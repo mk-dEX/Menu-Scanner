@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OrderCollectionDownloader.h"
-#import "ProductInfoDownloader.h"
 #import "OrderManager.h"
-#import "OrderUpdater.h"
+#import "OrderViewController.h"
 
 @class OrderCollectionViewController;
-@protocol OrderCollectionViewControllerDelegate
-- (void) orderView:(OrderCollectionViewController *)sender didSelectOrder:(Order *)order;
+@protocol OrderDetailDelegate
+- (void)viewController:(OrderCollectionViewController *)vc didSelectOrder:(Order *)order;
 @end
 
 @interface OrderCollectionViewController : UITableViewController <UISearchBarDelegate, OrderManagerDelegate>
-@property (weak) id<OrderCollectionViewControllerDelegate> delegate;
+@property (strong, nonatomic) id<OrderDetailDelegate> detailDelegate;
+- (void)addOrderByHash:(NSString *)hash;
+- (void)reloadOrderCollection:(id)sender;
+- (IBAction)logout:(id)sender;
 @end

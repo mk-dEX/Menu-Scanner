@@ -48,7 +48,7 @@
     
     for (NSDictionary *product in json)
     {
-        Product *scannedProduct = [self productFromJson:product];
+        Product *scannedProduct = [JSONMapper productFromJson:product];
         
         if (scannedProduct) {
             NSString *key = scannedProduct.category.name;
@@ -64,31 +64,4 @@
     }
 }
 
-- (Product *)productFromJson:(NSDictionary *)jsonProduct
-{
-    Product *product = [Product new];
-    
-    NSNumberFormatter *floatFormatter = [StringFormatter numberFormatter];
-    [floatFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-    
-    @try {
-        product.productID = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_ID];
-        product.name = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_NAME];
-        product.descr = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_DESCR];
-        product.unit = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_UNIT];
-        product.imageURL = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE];
-        product.price = [floatFormatter numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE_DEFAULT]];
-        
-        Category *category = [Category new];
-        category.categoryID = [[StringFormatter numberFormatter] numberFromString:[jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY_ID]];
-        category.name = [jsonProduct objectForKey:PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY];
-        product.category = category;
-    }
-    @catch (NSException *exception) {
-        product = nil;
-    }
-    @finally {
-        return product;
-    }
-}
 @end

@@ -7,14 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CategoryCollectionDownloader.h"
 
-@interface ItemViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ItemViewController : UIViewController <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RESTConnectionDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextField *name;
 @property (strong, nonatomic) IBOutlet UITextField *category;
 @property (strong, nonatomic) IBOutlet UITextField *price;
 @property (strong, nonatomic) IBOutlet UITextView *descr;
 @property (strong, nonatomic) IBOutlet UIImageView *picture;
+
+@property (strong, nonatomic) IBOutlet UIButton *categoryPicker;
+@property (strong, nonatomic) IBOutlet UIButton *productPicker;
 
 @property (strong, nonatomic) IBOutlet UIImageView *checkName;
 @property (strong, nonatomic) IBOutlet UIImageView *checkCategory;

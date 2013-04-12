@@ -33,7 +33,7 @@
     
     for (NSDictionary *category in json)
     {   
-        Category *scannedCategory = [self categoryFromJson:category];
+        Category *scannedCategory = [JSONMapper categoryFromJson:category];
         
         if (scannedCategory) {
             [categories addObject:scannedCategory];
@@ -45,19 +45,4 @@
     }
 }
 
-- (Category *)categoryFromJson:(NSDictionary *)jsonCategory
-{
-    Category *category = [Category new];
-    
-    @try {
-        category.name = [jsonCategory valueForKey:CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_NAME];
-        category.categoryID = [[StringFormatter numberFormatter] numberFromString:[jsonCategory valueForKey:CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_ID]];
-    }
-    @catch (NSException *exception) {
-        category = nil;
-    }
-    @finally {
-        return category;
-    }
-}
 @end

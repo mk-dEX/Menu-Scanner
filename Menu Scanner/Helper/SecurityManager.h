@@ -18,4 +18,6 @@
 + (BOOL)storePassword:(NSString *)password forUser:(NSString *)user;
 + (NSString *)loadPasswordForUser:(NSString *)user;
 
++ (BOOL)storeRestorationFlag:(BOOL)restore;
++ (BOOL)loadRestorationFlag;
 @end

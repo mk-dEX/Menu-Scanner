@@ -9,18 +9,24 @@
 #import "ItemViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "StringFormatter.h"
+#import "PictureManager.h"
 #import "MenuScannerConstants.h"
 #import "CategoryPickerViewController.h"
 #import "Category.h"
 #import "ProductPickerViewController.h"
 #import "Product.h"
+#import "ProductUpdater.h"
 
 @interface ItemViewController ()
 @property (strong, nonatomic) UIPopoverController *imagePickerPopover;
 @property (strong, nonatomic) UIPopoverController *imagePickerOptionsPopover;
+@property (strong, nonatomic) UIPopoverController *productPickerController;
+@property (strong, nonatomic) UIPopoverController *categoryPickerController;
 
 @property (strong, nonatomic) Category *selectedCategory;
 @property (strong, nonatomic) Product *selectedProduct;
+
+@property (nonatomic) BOOL pictureIsDefault;
 @end
 
 @implementation ItemViewController
@@ -35,10 +41,18 @@
 @synthesize checkPrice;
 @synthesize uploadIndicator;
 
+@synthesize categoryPicker;
+@synthesize productPicker;
+
 @synthesize imagePickerPopover;
 @synthesize imagePickerOptionsPopover;
+@synthesize productPickerController;
+@synthesize categoryPickerController;
+
 @synthesize selectedCategory;
 @synthesize selectedProduct;
+
+@synthesize pictureIsDefault;
 
 - (void)viewDidLoad
 {
@@ -48,6 +62,9 @@
     [layer setCornerRadius:10.0];
     [layer setBorderColor:[UIColor lightGrayColor].CGColor];
     [layer setBorderWidth:1.5f];
+    descr.textColor = [UIColor blackColor];
+    
+    pictureIsDefault = YES;
 }
 
 - (IBAction)closeForm:(id)sender
@@ -58,10 +75,7 @@
 - (IBAction)closeFormAndSaveItem:(id)sender
 {
     if ([self allFieldsValid]) {
-        [uploadIndicator startAnimating];
-        NSLog(@"Send Item");
-        [uploadIndicator stopAnimating];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self uploadProduct];
     }
     else {
         NSString *msg = ALRT_INFO_TEXTFIELD_NOT_FILLED;
@@ -72,24 +86,59 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"ImagePickerOptions"]) {
+    NSString *identifier = [segue identifier];
+    
+    if ([identifier isEqualToString:@"ImagePickerOptions"]) {
         imagePickerOptionsPopover = [(UIStoryboardPopoverSegue *)segue popoverController];
     }
-    if ([[segue identifier] isEqualToString:@"Names"]) {
-        if (selectedProduct) {
-            ProductPickerViewController *productPicker = segue.destinationViewController;
-            productPicker.categoryId = selectedProduct.category.categoryID;
+    if ([identifier isEqualToString:@"Names"])
+    {
+        if (selectedCategory) {
+            ProductPickerViewController *picker = segue.destinationViewController;
+            picker.categoryID = selectedCategory.categoryID;
         }
+        productPickerController = [(UIStoryboardPopoverSegue *)segue popoverController];
+    }
+    if ([identifier isEqualToString:@"CategoryNames"])
+    {
+        categoryPickerController = [(UIStoryboardPopoverSegue *)segue popoverController];
     }
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    if (imagePickerPopover.isPopoverVisible) {
-        [self.imagePickerPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-    }
-    if (imagePickerOptionsPopover && imagePickerOptionsPopover.isPopoverVisible) {
-        [self.imagePickerOptionsPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    [self resetPopover:imagePickerPopover
+               toFrame:self.picture.frame
+                inView:self.view
+             direction:UIPopoverArrowDirectionLeft];
+    
+    [self resetPopover:imagePickerOptionsPopover
+               toFrame:self.picture.frame
+                inView:self.view
+             direction:UIPopoverArrowDirectionLeft];
+    
+    [self resetPopover:productPickerController
+               toFrame:self.productPicker.frame
+                inView:self.view
+             direction:UIPopoverArrowDirectionLeft|UIPopoverArrowDirectionRight];
+    
+    [self resetPopover:categoryPickerController
+               toFrame:self.categoryPicker.frame
+                inView:self.view
+             direction:UIPopoverArrowDirectionLeft|UIPopoverArrowDirectionRight];
+}
+
+- (void)resetPopover:(UIPopoverController *)pc
+             toFrame:(CGRect)frame
+              inView:(UIView *)view
+           direction:(UIPopoverArrowDirection)direction
+{
+    if (pc && pc.isPopoverVisible)
+    {
+        [pc presentPopoverFromRect:frame
+                            inView:view
+          permittedArrowDirections:direction
+                          animated:YES];
     }
 }
 
@@ -151,11 +200,12 @@
 
 - (BOOL)priceIsValid
 {
-    NSNumber *testPrice = [[StringFormatter numberFormatter] numberFromString:self.price.text];
-    if (testPrice) {
-        [self.price setText:[[StringFormatter currencyFormatter] stringFromNumber:testPrice]];
+    NSString *rawNumber = [self.price.text stringByReplacingOccurrencesOfString:@"€" withString:@""];
+    NSNumber *formattedNumber = [[StringFormatter numberFormatter] numberFromString:rawNumber];
+    if (formattedNumber) {
+        [self.price setText:[[StringFormatter currencyFormatter] stringFromNumber:formattedNumber]];
     }
-    return testPrice != nil;
+    return formattedNumber != nil;
 }
 
 #pragma mark - Input validation UI feedback
@@ -196,7 +246,10 @@
     if (sourceType == UIImagePickerControllerSourceTypePhotoLibrary && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         imagePicker.sourceType = sourceType;
         self.imagePickerPopover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
-        [self.imagePickerPopover presentPopoverFromRect:self.picture.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+        [self.imagePickerPopover presentPopoverFromRect:self.picture.frame
+                                                 inView:self.view
+                               permittedArrowDirections:UIPopoverArrowDirectionLeft
+                                               animated:YES];
     }
     else if (sourceType == UIImagePickerControllerSourceTypeCamera && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         imagePicker.sourceType = sourceType;
@@ -213,6 +266,7 @@
 {
     UIImage *selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     [self.picture setImage:selectedImage];
+    pictureIsDefault = NO;
     
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImageWriteToSavedPhotosAlbum(selectedImage, nil, nil, nil);
@@ -254,6 +308,68 @@
     if ([descr.text isEqualToString:@""]) {
         [descr setText:selectedProduct.descr];
     }
+    
+    if (pictureIsDefault) {
+        [[PictureManager sharedInstance] initImageView:picture withImageFromURL:selectedProduct.imageURL];
+        pictureIsDefault = NO;
+    }
 }
+
+
+#pragma mark - Product Upload
+
+- (void)uploadProduct
+{
+    [uploadIndicator startAnimating];
+    
+    ProductUpdater *productUpdater = [ProductUpdater new];
+    productUpdater.httpDelegate = self;
+    
+    
+//    BOOL hasBeenEdited = YES; //..........
+//    
+//    if (selectedProduct)
+//    {
+//        [productUpdater patchProductWithID:selectedProduct.productID withPatchedProduct:selectedProduct];
+//    }
+//    else
+//    {
+        Product *createdProduct = [Product new];
+        createdProduct.name = self.name.text;
+        NSString *descrString = self.descr.text;
+        createdProduct.descr = ([descrString length] == 0) ? @"." : descrString;
+        createdProduct.unit = @".";
+        NSString *priceString = [self.price.text stringByReplacingOccurrencesOfString:@"€" withString:@""];
+        createdProduct.price = [[StringFormatter numberFormatter] numberFromString:priceString];
+        
+        Category *createdCategory = [Category new];
+        createdCategory.name = self.category.text;
+        createdProduct.category = createdCategory;
+        
+        [productUpdater addProduct:createdProduct withImage:self.picture.image];
+//    }
+}
+
+- (void)endUploadWithSuccess:(BOOL)uploadIsSuccesful
+{
+    [uploadIndicator stopAnimating];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+#pragma mark - REST
+
+- (void)connection:(RESTConnection *)connection didFinishWithCode:(HttpCode)code
+{
+    [self endUploadWithSuccess:(code == HttpCodeSuccessful)];
+}
+
+- (void)connection:(RESTConnection *)connection didFailWithError:(NSError *)error
+{
+    [self endUploadWithSuccess:NO];
+}
+
+
+
 
 @end

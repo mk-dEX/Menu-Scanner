@@ -20,8 +20,8 @@
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-        OrderViewController *detailController = [splitViewController.viewControllers lastObject];
-        splitViewController.delegate = (id)detailController;
+        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+        splitViewController.delegate = (id)navigationController.topViewController;
         splitViewController.presentsWithGesture = YES;
     }
     return YES;

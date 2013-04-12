@@ -62,6 +62,22 @@
     return [self keychainValueForIdentifier:user];
 }
 
+#pragma mark - Restoration flag
+
++ (BOOL)storeRestorationFlag:(BOOL)restore
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setBool:restore forKey:KEYCHAIN_RESTORE];
+    [prefs synchronize];
+    return YES;
+}
+
++ (BOOL)loadRestorationFlag
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    return [prefs boolForKey:KEYCHAIN_RESTORE];
+}
+
 #pragma mark - Keychain handlers
 
 + (NSMutableDictionary *)setupSearchDirectoryForIdentifier:(NSString *)identifier

@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NewProductInfoCell.h"
 #import "ProductCollectionDownloader.h"
 #import "Product.h"
 
-@interface ProductPickerViewController : UITableViewController <ProductCollectionDownloaderDelegate, NewProductInfoDelegate>
+@interface ProductPickerViewController : UITableViewController <ProductCollectionDownloaderDelegate>
 @property (strong, nonatomic) Product *selectedProduct;
-@property (weak, nonatomic) NSNumber *categoryId;
+@property (weak, nonatomic) NSNumber *categoryID;
 @end

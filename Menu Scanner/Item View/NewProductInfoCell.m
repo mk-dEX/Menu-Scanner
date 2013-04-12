@@ -10,14 +10,6 @@
 
 @implementation NewProductInfoCell
 
-@synthesize delegate;
 @synthesize name;
 @synthesize productProperty;
-
-- (IBAction)didSelectCategory:(id)sender
-{
-    if (delegate) {
-        [delegate cell:self didSelect:productProperty];
-    }
-}
 @end

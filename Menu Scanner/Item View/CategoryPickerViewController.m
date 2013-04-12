@@ -7,6 +7,7 @@
 //
 
 #import "CategoryPickerViewController.h"
+#import "NewProductInfoCell.h"
 
 @interface CategoryPickerViewController ()
 @property (strong, nonatomic) NSArray *availableCategories;
@@ -60,25 +61,22 @@
     
     Category *category = [availableCategories objectAtIndex:indexPath.row];
     
-    [cell.name setTitle:category.name forState:UIControlStateNormal];
+    [cell.name setText:category.name];
     cell.productProperty = category;
-    cell.delegate = self;
+    
+    if (indexPath.row%2 == 1) {
+        [cell.contentView setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.3]];
+    }
     
     return cell;
 }
+
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self returnWithCategory:(Category *)[((NewProductInfoCell *)[tableView cellForRowAtIndexPath:indexPath]) productProperty]];
-}
-
-#pragma mark - Category cell delegate
-
-- (void)cell:(NewProductInfoCell *)cell didSelect:(id)property;
-{
-    [self returnWithCategory:(Category *)property];
 }
 
 

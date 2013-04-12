@@ -20,8 +20,7 @@
 
 @implementation OrderCollectionViewController
 
-@synthesize delegate;
-
+@synthesize detailDelegate;
 @synthesize orderManager;
 
 - (void)viewDidLoad
@@ -29,36 +28,27 @@
     [super viewDidLoad];
         
     UIRefreshControl *refreshControl = [UIRefreshControl new];
-    [refreshControl addTarget:self action:@selector(reloadTableData:) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(reloadOrderCollection:) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
     
-    [self.view setBackgroundColor:[UIColor darkGrayColor]];
     [self.tableView setSeparatorColor:[UIColor grayColor]];
     
-    self.clearsSelectionOnViewWillAppear = YES;
-    
-    orderManager = [OrderManager getInstance];
+    orderManager = [OrderManager sharedInstance];
     orderManager.delegate = self;
     
-    [self reloadTableData:self];
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self setTableViewWidthTo:300];
     self.tableView.contentOffset = CGPointMake(0.0, 44.0);
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+- (IBAction)logout:(id)sender
 {
-    [self setTableViewWidthTo:300];
-}
-
-- (void) setTableViewWidthTo:(CGFloat)width
-{
-    CGRect frame = self.view.frame;
-    frame.size.width = width;
-    self.view.frame = frame;
+    [orderManager resetManager];
+    [[self orderDetailView] showEmpty];
+    [[self orderDetailView] presentAuthenticationView];
 }
 
 #pragma mark - Table view data source
@@ -84,6 +74,8 @@
     [cell.time setText:[[StringFormatter timeFormatter] stringFromDate:o.timestamp]];
     [cell.costs setText:[[StringFormatter currencyFormatter] stringFromNumber:o.totalCosts]];
     
+    [cell.checkScanned setAlpha:([orderManager didScanOrderWithID:o.orderID] ? 1.0 : 0.2)];
+    
     cell.order = o;
     
     return cell;
@@ -104,14 +96,11 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
         OrderInfoCell *removedCell = (OrderInfoCell *)[tableView cellForRowAtIndexPath:indexPath];
         Order *removedOrder = removedCell.order;
         [orderManager removeOrder:removedOrder];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-        OrderUpdater *orderUpdater = [OrderUpdater new];
-        [orderUpdater removeOrderWithID:removedOrder.orderID];
     }     
 }
 
@@ -121,12 +110,9 @@
 {
     OrderInfoCell *selectedCell = (OrderInfoCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     Order *selectedOrder = selectedCell.order;
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (delegate)
-    {
-        [delegate orderView:self didSelectOrder:selectedOrder];
-    }
+    OrderViewController *detailView = [self orderDetailView];
+    [detailView showOrder:selectedOrder];
 }
 
 #pragma mark - Search Bar Delegate
@@ -148,7 +134,7 @@
 
 #pragma mark - Order Manager Delegate
 
-- (void)reloadTableData:(id)sender
+- (void)reloadOrderCollection:(id)sender
 {
     [orderManager updateOrders];
 }
@@ -157,6 +143,24 @@
 {
     [self.refreshControl endRefreshing];
     [self.tableView reloadData];
+}
+
+- (void)selectedOrderDidChange:(Order *)newSelectedOrder atIndex:(NSUInteger)newSelectedIndex
+{
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:newSelectedIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    [[self orderDetailView] showOrder:newSelectedOrder];
+}
+
+#pragma mark - Detail view
+
+- (OrderViewController *)orderDetailView
+{
+    return (OrderViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+}
+
+- (void)addOrderByHash:(NSString *)hash
+{
+    [self.orderManager addOrderByHash:hash];
 }
 
 @end

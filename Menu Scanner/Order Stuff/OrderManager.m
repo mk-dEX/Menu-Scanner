@@ -11,13 +11,17 @@
 #import "OrderRef.h"
 
 @interface OrderManager ()
-@property (strong) NSMutableArray *registeredOrders;
-@property (strong) NSMutableArray *filteredOrders;
-@property (strong) NSString *filterString;
-@property (assign) BOOL isFiltered;
-@property (assign) unsigned int downloadsLeft;
-@property (strong) OrderCollectionDownloader *orderCollectionDownloader;
-@property (strong) ProductInfoDownloader *productInfoDownloader;
+@property (strong, nonatomic) NSMutableDictionary *registeredOrders;
+@property (strong, nonatomic) NSMutableArray *filteredOrderIDs;
+@property (strong, nonatomic) NSMutableArray *scannedOrderIDs;
+
+@property (strong, nonatomic) NSString *filterString;
+@property (assign, nonatomic) BOOL isFiltered;
+
+@property (strong, nonatomic) OrderRefCollectionDownloader *orderRefCollectionDownloader;
+@property (strong, nonatomic) OrderCollectionDownloader *orderCollectionDownloader;
+@property (strong, nonatomic) OrderUpdater *orderUpdater;
+@property (strong, nonatomic) ProductInfoDownloader *productInfoDownloader;
 @end
 
 @implementation OrderManager
@@ -26,12 +30,16 @@ static OrderManager *_instance;
 @synthesize delegate;
 
 @synthesize registeredOrders;
-@synthesize filteredOrders;
+@synthesize filteredOrderIDs;
+@synthesize scannedOrderIDs;
+
 @synthesize filterString;
 @synthesize isFiltered;
-@synthesize downloadsLeft;
+
+@synthesize orderRefCollectionDownloader;
 @synthesize orderCollectionDownloader;
 @synthesize productInfoDownloader;
+@synthesize orderUpdater;
 
 #pragma mark - Singleton Management
 
@@ -49,19 +57,24 @@ static OrderManager *_instance;
 - (id)init
 {
     if (self = [super init]) {
-        registeredOrders = [NSMutableArray new];
-        isFiltered = false;
-        downloadsLeft = 0;
+        registeredOrders = [NSMutableDictionary new];
+        filteredOrderIDs = [NSMutableArray new];
+        scannedOrderIDs = [NSMutableArray new];
         
+        isFiltered = false;
+        
+        orderRefCollectionDownloader = [OrderRefCollectionDownloader new];
+        orderRefCollectionDownloader.delegate = self;
         orderCollectionDownloader = [OrderCollectionDownloader new];
         orderCollectionDownloader.delegate = self;
         productInfoDownloader = [ProductInfoDownloader new];
         productInfoDownloader.delegate = self;
+        orderUpdater = [OrderUpdater new];
     }
     return self;
 }
 
-+ (OrderManager *)getInstance
++ (OrderManager *)sharedInstance
 {
     @synchronized([OrderManager class])
     {
@@ -74,23 +87,61 @@ static OrderManager *_instance;
 
 #pragma mark - Order Management
 
-- (void)addOrder:(Order *)newOrder
+- (void)addOrder:(Order *)order
 {
-    [registeredOrders addObject:newOrder];
-    if (isFiltered && [self order:newOrder appliesToFilter:filterString])
+    NSNumber *orderID = order.orderID;
+    [registeredOrders setObject:order forKey:orderID];
+    if (isFiltered && [self order:order appliesToFilter:filterString])
     {
-        [filteredOrders addObject:newOrder];
+        [filteredOrderIDs addObject:orderID];
     }
 }
 
-- (void)removeOrder:(Order *)oldOrder
+- (void)addOrderByHash:(NSString *)orderHash
 {
-    [registeredOrders removeObject:oldOrder];
+    [productInfoDownloader downloadOrderWithHash:orderHash];
+}
+
+- (void)removeOrder:(Order *)order
+{
+    NSNumber *orderID = order.orderID;
+    [registeredOrders removeObjectForKey:orderID];
+    [filteredOrderIDs removeObject:orderID];
+    [scannedOrderIDs removeObject:orderID];
+    
+    [orderUpdater removeOrderWithID:orderID];
+    [self notifyDelegate];
+}
+
+- (void)resetManager
+{
+    [registeredOrders removeAllObjects];
+    [filteredOrderIDs removeAllObjects];
+    [scannedOrderIDs removeAllObjects];
+    
+    [self notifyDelegate];
 }
 
 - (NSArray *)orders
 {
-    return isFiltered ? filteredOrders : registeredOrders;
+    NSMutableArray *unsortedOrders;
+    if (!isFiltered) {
+        unsortedOrders = [NSMutableArray arrayWithArray:[registeredOrders allValues]];
+    }
+    else {
+        unsortedOrders = [[NSMutableArray alloc] initWithCapacity:filteredOrderIDs.count];
+        for (NSNumber *filteredOrderID in filteredOrderIDs) {
+            Order *o;
+            if ((o = [registeredOrders objectForKey:filteredOrderID]) != nil) {
+                [unsortedOrders addObject:o];
+            }
+        }
+    }
+    return [unsortedOrders sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSDate *first = [(Order *)a timestamp];
+        NSDate *second = [(Order *)b timestamp];
+        return [second compare:first];
+    }];
 }
 
 - (Order *)orderAtIndex:(NSUInteger)index
@@ -104,41 +155,46 @@ static OrderManager *_instance;
     return [orderList objectAtIndex:index];
 }
 
-- (void)updateOrders
+- (NSUInteger)indexOfOrder:(Order *)order
 {
-    [orderCollectionDownloader downloadOrderCollection];
+    NSNumber *orderID = order.orderID;
+    NSArray *allOrdersSorted = [self orders];
+    NSUInteger currentIndex = 0;
+    for (Order *o in allOrdersSorted) {
+        if ([o.orderID isEqualToNumber:orderID]) {
+            return currentIndex;
+        }
+        currentIndex += 1;
+    }
+    return 0;
 }
 
-- (void)sortOrders
-{    
-    NSArray *sortedRegisteredOrders = [registeredOrders sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        NSDate *first = [(Order *)a timestamp];
-        NSDate *second = [(Order *)b timestamp];
-        return [second compare:first];
-    }];
-    
-    registeredOrders = [NSMutableArray arrayWithArray:sortedRegisteredOrders];
-    
-    NSArray *sortedFilteredOrders = [filteredOrders sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        NSDate *first = [(Order *)a timestamp];
-        NSDate *second = [(Order *)b timestamp];
-        return [second compare:first];
-    }];
-    
-    filteredOrders = [NSMutableArray arrayWithArray:sortedFilteredOrders];
+- (BOOL)didScanOrderWithID:(NSNumber *)orderID
+{
+    return [scannedOrderIDs containsObject:orderID] && [[registeredOrders allKeys] containsObject:orderID];
 }
+
+- (void)updateOrders
+{
+    [orderRefCollectionDownloader downloadOrderRefCollection];
+}
+
 
 #pragma mark - Order Search
 
 - (void)setFilter:(NSString *)filter
 {
-    filterString = filter;
-    isFiltered = YES;
+    if ([filter length] == 0) {
+        [self resetFilter];
+    }
+    else
+    {
+        filterString = filter;
+        isFiltered = YES;
     
-    filteredOrders = [NSMutableArray new];
-    
-    [self filterOrders];
-    [self notifyDelegate];
+        [self filterOrders];
+        [self notifyDelegate];
+    }
 }
 
 - (void)resetFilter
@@ -149,46 +205,50 @@ static OrderManager *_instance;
 
 - (void)filterOrders
 {
-    Boolean isDate = ([filterString rangeOfString:@"."].location != NSNotFound) || ([filterString rangeOfString:@"/"].location != NSNotFound);
-    NSDate *filterDate;
-    
-    if (isDate) {
-        filterDate = [[StringFormatter dateFormatter] dateFromString:filterString];
-        if (!filterDate) {
-            return;
-        }
-    }
-    
-    for (Order *o in registeredOrders) {
-        
-        if (isDate ? [self order:o checkDate:filterDate] : [self order:o checkItems:filterString]) {
-            [filteredOrders addObject:o];
+    filteredOrderIDs = [NSMutableArray array];
+    for (Order *o in [registeredOrders allValues])
+    {
+        if ([self order:o appliesToFilter:filterString])
+        {
+            [filteredOrderIDs addObject:o.orderID];
         }
     }
 }
 
-- (Boolean)order:(Order *)order appliesToFilter:(NSString *)filter
+- (BOOL)order:(Order *)order appliesToFilter:(NSString *)filter
 {
-    Boolean isDate = ([filterString rangeOfString:@"."].location != NSNotFound) || ([filterString rangeOfString:@"/"].location != NSNotFound);
-    
-    if (!isDate) {
-        return [self order:order checkItems:filter];
-    }
-
-    NSDate *filterDate = [[StringFormatter dateFormatter] dateFromString:filter];
-    return filterDate != nil && [self order:order checkDate:filterDate];
+    return [self filterIsDateFilter:filter] ? [self order:order appliesToDateFilter:filter] : [self order:order appliesToProductFilter:filter];
 }
 
-- (Boolean)order:(Order *)order checkDate:(NSDate *)date
+- (BOOL)filterIsDateFilter:(NSString *)filter
+{
+    return ([filterString rangeOfString:@"."].location != NSNotFound) || ([filterString rangeOfString:@"/"].location != NSNotFound);
+}
+
+- (BOOL)order:(Order *)order appliesToDateFilter:(NSString *)filterDate
+{
+    NSDate *date = [[StringFormatter dateFormatter] dateFromString:filterDate];
+    return date && [self order:order checkDate:date];
+}
+
+- (BOOL)order:(Order *)order appliesToProductFilter:(NSString *)productName
+{
+    return [self order:order checkItems:productName];
+}
+
+
+#pragma mark - Search filter comparisons
+
+- (BOOL)order:(Order *)order checkDate:(NSDate *)date
 {
     return [self isSameDay:date otherDay:order.timestamp];
 }
 
-- (Boolean)order:(Order *)order checkItems:(NSString *)productName
+- (BOOL)order:(Order *)order checkItems:(NSString *)productName
 {
-    for (NSString *category in order.categories)
+    for (NSString *category in [order categories])
     {
-        for (Product *product in [order.products objectForKey:category])
+        for (Product *product in [order productsOfCategory:category])
         {
             NSRange nameRange = [product.name rangeOfString:productName options:NSCaseInsensitiveSearch];
             if (nameRange.location != NSNotFound)
@@ -200,7 +260,7 @@ static OrderManager *_instance;
     return NO;
 }
 
-- (Boolean)isSameDay:(NSDate *)date1 otherDay:(NSDate *)date2
+- (BOOL)isSameDay:(NSDate *)date1 otherDay:(NSDate *)date2
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
@@ -211,41 +271,73 @@ static OrderManager *_instance;
     return [comp1 day] == [comp2 day] && [comp1 month] == [comp2 month] && [comp1 year] == [comp2 year];
 }
 
-#pragma mark - OrderCollectionDownloader Delegate
 
-- (void)download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orderRefs
+#pragma mark - Order reference downloader
+
+- (void)download:(OrderRefCollectionDownloader *)download didFinishWithOrderRefCollection:(NSArray *)orderRefs
 {
-    downloadsLeft = [orderRefs count];
-        
-    for (OrderRef *or in orderRefs)
-    {
-        [productInfoDownloader downloadOrderWithHash:or.orderHash];
+    NSMutableSet *localOrderIDs = [[NSMutableSet alloc] initWithArray:[registeredOrders allKeys]];
+    NSMutableSet *downloadOrderIDs = [[NSMutableSet alloc] initWithCapacity:orderRefs.count];
+    for (OrderRef *remoteOrderRef in orderRefs) {
+        [downloadOrderIDs addObject:remoteOrderRef.orderID];
     }
+    
+    //Lösche später nur die IDs aus der lokalen Menge, die nicht in der aktuellsten Menge vorhanden sind
+    NSMutableSet *obsoleteLocalOrderIDs = [[NSMutableSet alloc] initWithSet:localOrderIDs copyItems:YES];
+    [obsoleteLocalOrderIDs minusSet:downloadOrderIDs];
+    
+    //Entferne alle IDs aus der Menge derer, die heruntergeladen werden sollen, aber bereits in der lokalen Menge vorhanden sind
+    [downloadOrderIDs minusSet:localOrderIDs];
+    
+    //Aktualisiere die lokalen IDs
+    [registeredOrders removeObjectsForKeys:[obsoleteLocalOrderIDs allObjects]];
+    
+    //Sammle die Hashes zu den IDs die heruntergeladen werden sollen
+    NSMutableArray *downloadHashes = [NSMutableArray new];
+    NSUInteger maxDownloads = [downloadOrderIDs count];
+    for (OrderRef *remoteOrder in orderRefs)
+    {
+        if ([downloadHashes count] >= maxDownloads) {
+            break;
+        }
+        if ([downloadOrderIDs containsObject:remoteOrder.orderID]) {
+            [downloadHashes addObject:remoteOrder.orderHash];
+        }
+    }
+    
+    [orderCollectionDownloader downloadOrderCollectionWithHashes:downloadHashes];
 }
 
-#pragma mark - ProductInfoDownloader Delegate
+
+#pragma mark - Order collection downloader
+
+- (void)download:(OrderCollectionDownloader *)download didFinishWithOrderCollection:(NSArray *)orders
+{
+    for (Order *downloadedOrder in orders) {
+        [self addOrder:downloadedOrder];
+    }
+    
+    [self notifyDelegate];
+}
+
+
+#pragma mark - Product info downloader
 
 - (void)download:(ProductInfoDownloader *)download didFinishWithOrder:(Order *)order
 {
-    @synchronized(order)
-    {
-        if (![registeredOrders containsObject:order]) {
-            [self addOrder:order];
-        }
-        downloadsLeft -= 1;
-    }
+    [self addOrder:order];
+    [scannedOrderIDs addObject:order.orderID];
     
-    if (downloadsLeft <= 0)
-    {
-        [self sortOrders];
-        [self notifyDelegate];
+    [self notifyDelegate];
+    if (delegate) {
+        [delegate selectedOrderDidChange:order atIndex:[self indexOfOrder:order]];
     }
 }
 
 - (void)download:(ProductInfoDownloader *)download didReceiveInvalidData:(id)data
 {
-    
 }
+
 
 #pragma mark - Notifications
 

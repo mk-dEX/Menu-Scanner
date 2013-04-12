@@ -27,20 +27,15 @@
     return self;
 }
 
-- (NSInteger) numberOfCategories
+- (NSArray *)categories
 {
-    return categories.count;
+    return [categories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
-- (NSInteger) numberOfProductsInCategory:(NSString *)category
+- (NSArray *)productsOfCategory:(NSString *)category
 {
-    NSArray *catProducts = [products objectForKey:category];
-    return [catProducts count];
-}
-
-- (Product *) productAtIndex:(NSInteger)index inCategory:(NSString *)category
-{
-    return [[products objectForKey:category] objectAtIndex:index];
+    NSArray *productsOfCategory = [products objectForKey:category];
+    return [productsOfCategory sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 }
 
 - (BOOL)isEqual:(id)other

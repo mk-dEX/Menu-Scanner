@@ -8,25 +8,31 @@
 
 #import <Foundation/Foundation.h>
 #import "ProductInfoDownloader.h"
+#import "OrderRefCollectionDownloader.h"
 #import "OrderCollectionDownloader.h"
+#import "OrderUpdater.h"
 
 @class OrderManager;
 @protocol OrderManagerDelegate
 - (void)modelDidUpdate;
+- (void)selectedOrderDidChange:(Order *)newSelectedOrder atIndex:(NSUInteger)newSelectedIndex;
 @end
 
-
-@interface OrderManager : NSObject <ProductInfoDownloaderDelegate, OrderCollectionDownloaderDelegate>
+@interface OrderManager : NSObject <ProductInfoDownloaderDelegate, OrderRefCollectionDownloaderDelegate, OrderCollectionDownloaderDelegate>
 
 @property (weak) id<OrderManagerDelegate> delegate;
 
-+ (OrderManager *)getInstance;
++ (OrderManager *)sharedInstance;
 
-- (void)addOrder:(Order *)newOrder;
-- (void)removeOrder:(Order *)oldOrder;
+- (void)addOrder:(Order *)order;
+- (void)addOrderByHash:(NSString *)orderHash;
+- (void)removeOrder:(Order *)order;
+- (void)resetManager;
 - (void)updateOrders;
+
 - (NSArray *)orders;
 - (Order *)orderAtIndex:(NSUInteger)index;
+- (BOOL)didScanOrderWithID:(NSNumber *)orderID;
 
 - (void)setFilter:(NSString *)filter;
 - (void)resetFilter;

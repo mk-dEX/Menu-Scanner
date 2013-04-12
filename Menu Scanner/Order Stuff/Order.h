@@ -16,8 +16,6 @@
 @property (strong, nonatomic) NSNumber *orderID;
 @property (strong, nonatomic) NSDate *timestamp;
 
-- (NSInteger) numberOfCategories;
-- (NSInteger) numberOfProductsInCategory:(NSString *)category;
-- (Product *) productAtIndex:(NSInteger)index inCategory:(NSString *)category;
-
+- (NSArray *)categories;
+- (NSArray *)productsOfCategory:(NSString *)category;
 @end

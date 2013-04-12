@@ -10,6 +10,7 @@
 #pragma mark - SecurityManager
 
 #define KEYCHAIN_KEY @"user_name"
+#define KEYCHAIN_RESTORE @"do_restore_credentials"
 #define KEYCHAIN_SERVICE @"Menu Scanner"
 
 

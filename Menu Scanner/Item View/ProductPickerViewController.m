@@ -7,6 +7,7 @@
 //
 
 #import "ProductPickerViewController.h"
+#import "NewProductInfoCell.h"
 
 @interface ProductPickerViewController ()
 @property (strong, nonatomic) NSDictionary *availableProducts;
@@ -16,7 +17,7 @@
 @implementation ProductPickerViewController
 
 @synthesize selectedProduct;
-@synthesize categoryId;
+@synthesize categoryID;
 
 @synthesize availableProducts;
 @synthesize productDownloader;
@@ -66,9 +67,12 @@
     
     Product *product = [[self productsAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
-    [cell.name setTitle:product.name forState:UIControlStateNormal];
+    [cell.name setText:product.name];
     cell.productProperty = product;
-    cell.delegate = self;
+    
+    if (indexPath.row%2 == 1) {
+        [cell.contentView setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.3]];
+    }
     
     return cell;
 }
@@ -90,13 +94,6 @@
     [self returnWithProduct:(Product *)[((NewProductInfoCell *)[tableView cellForRowAtIndexPath:indexPath]) productProperty]];
 }
 
-#pragma mark - Category cell delegate
-
-- (void)cell:(NewProductInfoCell *)cell didSelect:(id)property;
-{
-    [self returnWithProduct:(Product *)property];
-}
-
 
 #pragma mark - Product collection downloader delegate
 
@@ -111,8 +108,8 @@
 
 - (IBAction)refresh:(id)sender
 {
-    if (categoryId) {
-        [productDownloader downloadProductCollectionWithID:categoryId];
+    if (categoryID) {
+        [productDownloader downloadProductCollectionWithID:categoryID];
     }
     else {
         [productDownloader downloadProductCollection];

@@ -9,13 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Category.h"
 
-@class NewProductInfoCell;
-@protocol NewProductInfoDelegate
-- (void)cell:(NewProductInfoCell *)cell didSelect:(id)property;
-@end
-
 @interface NewProductInfoCell : UITableViewCell
-@property (weak, nonatomic) id<NewProductInfoDelegate> delegate;
-@property (strong, nonatomic) IBOutlet UIButton *name;
+@property (strong, nonatomic) IBOutlet UILabel *name;
 @property (strong, nonatomic) id productProperty;
 @end

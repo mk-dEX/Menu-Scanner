@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Category.h"
 #import "CategoryCollectionDownloader.h"
-#import "NewProductInfoCell.h"
 
-@interface CategoryPickerViewController : UITableViewController <CategoryCollectionDownloaderDelegate, NewProductInfoDelegate>
+@interface CategoryPickerViewController : UITableViewController <CategoryCollectionDownloaderDelegate>
 @property (strong, nonatomic) Category *selectedCategory;
 @end
