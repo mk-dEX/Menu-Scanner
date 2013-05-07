@@ -56,9 +56,7 @@
 #pragma mark - REST
 
 #define REQUEST_TIMEOUT 10.0
-
 #define REST_BASE @"http://api.codingduck.de"
-
 #define REST_ORDERS @"/orders"
 #define REST_LOGIN @"/login/check"
 #define REST_CATEGORIES @"/categories"
@@ -66,37 +64,42 @@
 
 
 
-#pragma mark - Order Collection Downloader
+#pragma mark - Order Collection Mappings
 
-#define ORDER_COLLECTION_DOWNLOADER_ID @"id"
-#define ORDER_COLLECTION_DOWNLOADER_HASH @"hash"
-#define ORDER_COLLECTION_DOWNLOADER_TIME @"orderTime"
-
-
-#pragma mark - Product Info Downloader
-
-#define PRODUCT_INFO_DOWNLOADER_TOTAL_COSTS @"total"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCTS @"items"
-#define PRODUCT_INFO_DOWNLOADER_ID @"id"
-#define PRODUCT_INFO_DOWNLOADER_TIME @"orderTime"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_NAME @"name"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY @"category"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_CATEGORY_ID @"category_id"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_DESCR @"desc"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_COUNT @"count"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_UNIT @"unit"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE @"price"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_PRICE_DEFAULT @"defaultPrice"
-#define PRODUCT_INFO_DOWNLOADER_PRODUCT_IMAGE @"imageURL"
+#define ORDER_COLLECTION_ID @"id"
+#define ORDER_COLLECTION_HASH @"hash"
+#define ORDER_COLLECTION_TIME @"orderTime"
 
 
-#pragma mark - Category Collection Downloader
+#pragma mark - Order Mappings
 
-#define CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_NAME @"name"
-#define CATEGORY_COLLECTION_DOWNLOADER_CATEGORY_ID @"id"
+#define ORDER_TOTAL_COSTS @"total"
+#define ORDER_PRODUCTS @"items"
+#define ORDER_ID @"id"
+#define ORDER_TIME @"orderTime"
 
 
-#pragma mark - REST Connection
+#pragma mark - Product Mappings
+
+#define PRODUCT_ID @"id"
+#define PRODUCT_NAME @"name"
+#define PRODUCT_CATEGORY @"category"
+#define PRODUCT_CATEGORY_ID @"category_id"
+#define PRODUCT_DESCR @"desc"
+#define PRODUCT_COUNT @"count"
+#define PRODUCT_UNIT @"unit"
+#define PRODUCT_PRICE @"price"
+#define PRODUCT_PRICE_DEFAULT @"defaultPrice"
+#define PRODUCT_IMAGE @"imageURL"
+
+
+#pragma mark - Category Collection Mappings
+
+#define CATEGORY_COLLECTION_NAME @"name"
+#define CATEGORY_COLLECTION_ID @"id"
+
+
+#pragma mark - HTTP Code Mappings
 
 #define REST_HTTP_RESPONSE @"error"
 #define REST_HTTP_CODE @"code"
@@ -104,9 +107,9 @@
 
 #pragma mark - Secure REST Connection
 
-#define SECURE_REST_CONNECTION_USERNAME @"QRAuth_username"
-#define SECURE_REST_CONNECTION_TIMESTAMP @"QRAuth_timestamp"
-#define SECURE_REST_CONNECTION_SIGNATURE @"QRAuth_signature"
+#define SEC_USERNAME @"QRAuth_username"
+#define SEC_TIMESTAMP @"QRAuth_timestamp"
+#define SEC_SIGNATURE @"QRAuth_signature"
 
 
 

@@ -25,9 +25,9 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestedURL
                                                                 cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                             timeoutInterval:REQUEST_TIMEOUT];
-    [request setValue:[NSString stringWithFormat:@"%ld", timestamp] forHTTPHeaderField:SECURE_REST_CONNECTION_TIMESTAMP];
-    [request setValue:signatureHash forHTTPHeaderField:SECURE_REST_CONNECTION_SIGNATURE];
-    [request setValue:user forHTTPHeaderField:SECURE_REST_CONNECTION_USERNAME];
+    [request setValue:[NSString stringWithFormat:@"%ld", timestamp] forHTTPHeaderField:SEC_TIMESTAMP];
+    [request setValue:signatureHash forHTTPHeaderField:SEC_SIGNATURE];
+    [request setValue:user forHTTPHeaderField:SEC_USERNAME];
     [request setHTTPMethod:httpMethod];
     
     return request;
